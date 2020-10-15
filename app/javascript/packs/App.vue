@@ -1,8 +1,10 @@
 <template>
   <div id="app">
+
     <b-container>
       <Header></Header>
-      <p>{{ message }}</p>
+      <p class="msg">{{ message }}</p>
+      <h1>H1タグ</h1>
       <router-view></router-view>
     </b-container>
   </div>
@@ -26,7 +28,13 @@ export default {
 <style scoped>
 @import '../bootstrap/scss/_variables.scss'
 p {
-  font-size: 2em;
+  background-color: rgb(254, 103, 20);
+}
+h1 {
+  background-color: rgb(134, 115, 252);
+}
+.msg {
+  background-color: rgb(11, 79, 43);
   text-align: center;
 }
 </style>
