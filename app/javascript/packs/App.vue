@@ -24,6 +24,7 @@ export default {
 </script>
 
 <style scoped>
+@import '../bootstrap/scss/_variables.scss'
 p {
   font-size: 2em;
   text-align: center;
