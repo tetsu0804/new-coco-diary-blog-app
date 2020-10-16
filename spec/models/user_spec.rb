@@ -25,6 +25,16 @@ RSpec.describe User, type: :model do
         @user.email = ''
         expect(@user).to_not be_valid
       end
+
+      it 'passwordが無い' do
+        @user.password = ' '
+        expect(@user).to_not be_valid
+      end
+
+      it 'password_confirmationが無い' do
+        @user.password_confirmation = ' '
+        expect(@user).to_not be_valid
+      end
     end
 
     context '記入が長すぎる為失敗と一応の長さ確認の成功例も' do
@@ -62,7 +72,14 @@ RSpec.describe User, type: :model do
 
       it 'passwordが5文字の為' do
         @user.password = 'a' * 5
+        @user.password_confirmation = 'a' * 5
         expect(@user).to_not be_valid
+      end
+
+      it 'passwordが6文字の為成功' do
+        @user.password = 'a' * 6
+        @user.password_confirmation = 'a' * 6
+        expect(@user).to be_valid
       end
     end
   end
