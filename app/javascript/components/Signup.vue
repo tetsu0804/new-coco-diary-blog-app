@@ -1,6 +1,8 @@
 <template>
   <div>
-    <b-form @submit="signupSubmit">
+    <b-col cols="12" offset-sm="1" sm="10">
+    <div class="text-center text-info h4 signin-form-top">ユーザー登録作成</div>
+    <b-form @submit="signupSubmit" class="signin-form-top">
       <b-alert show variant="danger" v-show="error">{{ error }}</b-alert>
       <b-form-group
         id="signup-input-group-1"
@@ -53,10 +55,9 @@
           required
         ></b-form-input>
       </b-form-group>
-
-      <b-button type="submit" variant="primary">登録</b-button>
+      <b-button block variant="info" type="submit">登録</b-button>
     </b-form>
-
+    </b-col>
   </div>
 </template>
 
@@ -140,3 +141,9 @@
     }
   }
 </script>
+
+<style scoped>
+  .signin-form-top {
+    margin-top: 15px;
+  }
+</style>

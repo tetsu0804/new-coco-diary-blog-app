@@ -1,8 +1,7 @@
 <template>
   <div id="app">
-    <b-container>
+    <b-container fluid>
       <Header></Header>
-      <p class="msg">{{ message }}</p>
       <router-view></router-view>
     </b-container>
   </div>
@@ -12,11 +11,6 @@
 import Header from '../components/Header.vue'
 
 export default {
-  data: function () {
-    return {
-      message: "Hello Vue!"
-    }
-  },
   components: {
     Header: Header
   }
