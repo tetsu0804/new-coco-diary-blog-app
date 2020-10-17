@@ -8,7 +8,7 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item href="#">Link</b-nav-item>
-          <b-nav-item href="#" disabled>Disabled</b-nav-item>
+          <router-link :to="{name: 'Signup'}">ユーザー登録</router-link>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->

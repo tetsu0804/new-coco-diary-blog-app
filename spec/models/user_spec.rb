@@ -60,13 +60,11 @@ RSpec.describe User, type: :model do
 
       it 'emailが256文字の為' do
         @user.email = 'a' * 244 + '@example.com'
-        puts @user.email.length
         expect(@user).to_not be_valid
       end
 
       it 'emailが255文字の為成功' do
         @user.email = 'a' * 243 + '@example.com'
-        puts @user.email.length
         expect(@user).to be_valid
       end
 
@@ -81,6 +79,12 @@ RSpec.describe User, type: :model do
         @user.password_confirmation = 'a' * 6
         expect(@user).to be_valid
       end
+    end
+
+    it '同じemailが二つ以上の場合失敗' do
+      other_user = User.create(last_name: '田中', first_name: '太郎', email: 'test@test.com', password: 'password', password_confirmation: 'password')
+
+      expect(other_user).to_not be_valid
     end
   end
 end

@@ -8,7 +8,8 @@ class Api::V1::UsersController < ApplicationController
   def create
     user = User.new(user_params)
     if user.save
-      render json: { user: user}
+      login(user)
+      render json: { user: user, cookie: User.digest(session[:user_id])}
     else
       render json: "ユーザー作成に失敗しました", status: :unauthorized
     end
@@ -17,6 +18,6 @@ class Api::V1::UsersController < ApplicationController
   private
 
     def user_params
-      params.permit(:last_name, :first_name, :email)
+      params.permit(:last_name, :first_name, :email, :password, :password_confirmation)
     end
 end
