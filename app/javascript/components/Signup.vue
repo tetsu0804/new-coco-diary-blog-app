@@ -55,7 +55,16 @@
           required
         ></b-form-input>
       </b-form-group>
-      <b-button block variant="info" type="submit">登録</b-button>
+      <b-row>
+        <b-col>
+          <b-button block variant="info" type="submit">登録</b-button>
+        </b-col>
+          
+        <b-col>
+          <router-link class="btn btn-info signup-signup-btn" :to="{name: 'Login'}">ログイン</router-link>
+        </b-col>
+      </b-row>
+
     </b-form>
     </b-col>
   </div>
@@ -145,5 +154,8 @@
 <style scoped>
   .signin-form-top {
     margin-top: 15px;
+  }
+  .signup-signup-btn {
+    width: 100%;
   }
 </style>

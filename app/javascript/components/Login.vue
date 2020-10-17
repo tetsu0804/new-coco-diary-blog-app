@@ -1,8 +1,15 @@
 <template>
   <div>
     <b-col cols="12" offset-sm="1" sm="10">
-      <div class="text-center text-info h4 login-form-top">ログイン画面</div>
-      <b-img v-bind="mainProps" rounded="circle" alt="Circle image"></b-img>
+      <div class="text-center text-info h2 login-form-top">COCO Diary....login</div>
+      <b-img
+        center
+        src="/img/IMG_0079.JPG"
+        rounded="circle"
+        alt="Circle image"
+        class="login-form-top"
+        style="width: 300px; height: 350px; box-shadow: 0 10px 25px 0 rgba(0, 0, 0, .5);"
+        ></b-img>
       <b-form @submit="loginSubmit" class="login-form-top">
         <b-alert show variant="danger" v-show="error">{{ error }}</b-alert>
         <b-form-group
@@ -33,7 +40,7 @@
           </b-col>
 
           <b-col>
-            <router-link class="btn btn-info login-login-btn":to="{name: 'Signin'}">ユーザー登録</router-link>
+            <router-link class="btn btn-info login-login-btn" :to="{name: 'Signup'}">ユーザー登録</router-link>
           </b-col>
         </b-row>
       </b-form>
