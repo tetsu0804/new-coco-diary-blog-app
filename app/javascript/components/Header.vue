@@ -7,6 +7,7 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <router-link :to="{name: 'Signup'}">ユーザー登録</router-link>
+        <router-link :to="{name: 'Login'}">ログイン</router-link>
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
@@ -36,7 +37,7 @@ import { mapState } from 'vuex'
           this.$store.dispatch('doFetchUserSignIn', '')
           document.cookie = "cookie=; max-age=0"
           document.cookie = "signIn=; max-age=0"
-          this.$router.push('/')
+          this.$router.push({ name: 'Login' })
         })
       }
     }
