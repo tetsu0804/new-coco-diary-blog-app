@@ -57,9 +57,9 @@
       </b-form-group>
       <b-row>
         <b-col>
-          <b-button block variant="info" type="submit">登録</b-button>
+          <b-button class="on-signup-btn" block variant="info" type="submit">登録</b-button>
         </b-col>
-          
+
         <b-col>
           <router-link class="btn btn-info signup-signup-btn" :to="{name: 'Login'}">ログイン</router-link>
         </b-col>
