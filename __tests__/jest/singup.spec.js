@@ -81,7 +81,7 @@ describe('Signup', () => {
     // axiosでのdataの値を非同期でレスポンスデータを取得
     userPost = axios.post.mockResolvedValue({ id: 1, last_name: signupWrapper.vm.last_name, first_name: signupWrapper.vm.first_name, email: signupWrapper.vm.email, signIn: true })
     userPostResponse = await userPost()
-    
+
     //actionsメソッドでのstore.stateへ値を更新している
     actions.doFetchUserId(userPostResponse.id)
     actions.doFetchUserLastName(userPostResponse.last_name)

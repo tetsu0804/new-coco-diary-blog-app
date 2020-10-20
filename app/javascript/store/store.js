@@ -10,7 +10,8 @@ export default new Vuex.Store({
     last_name: '',
     first_name: '',
     email: '',
-    signIn: ''
+    signIn: '',
+    blogs: []
   },
   mutations: {
     fetchUserId(state, id) {
@@ -27,6 +28,14 @@ export default new Vuex.Store({
     },
     fetchUserSignIn(state, signin) {
       state.signIn = signin
+    },
+    fetchBlogs(state, {id: id, title: title, content: content}) {
+      let new_blog = {id: id, title: title, content: content}
+
+      state.blogs.push(new_blog)
+    },
+    fetchDeleteBlogs(state) {
+      state.blogs = 0;
     }
   },
   actions: {
@@ -44,6 +53,12 @@ export default new Vuex.Store({
     },
     doFetchUserSignIn( { commit }, signin) {
       commit('fetchUserSignIn', signin)
+    },
+    doFetchBlogs( { commit }, { id: id, title: title, content: content }) {
+      commit('fetchBlogs', { id: id, title: title, content: content })
+    },
+    doFetchDeleteBlogs( { commit }) {
+      commit('fetchDeleteBlogs')
     }
   },
   plugins: [

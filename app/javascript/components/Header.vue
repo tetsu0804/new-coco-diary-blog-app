@@ -12,6 +12,7 @@
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
           <b-nav-item class="text-white" v-on:click="userLogout">ログアウト</b-nav-item>
+          <router-link class="blog-new" :to="{ name: 'BlogNew' }">ブルグ作成</router-link>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
