@@ -2,7 +2,7 @@
   <div>
     <b-navbar toggleable="lg" type="dark" variant="info">
       <router-link :to="{name: 'Home'}" class="text-white"> COCO Diary</router-link>
-      <p v-if="last_name">{{ last_name + first_name + 'さん'}}</p>
+      <p v-if="last_name" class="header-user-name">{{ last_name + first_name + 'さん'}}</p>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>

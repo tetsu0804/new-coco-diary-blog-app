@@ -26,7 +26,10 @@
     "@vue/test-utils": "^1.1.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "^26.6.0",
+    "chromedriver": "^86.0.0",
     "jest": "^26.6.0",
+    "nightwatch": "^1.4.3",
+    "selenium-server": "^3.141.59",
     "vue-jest": "^3.0.7",
     "webpack-dev-server": "^3.11.0"
   },
