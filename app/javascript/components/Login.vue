@@ -36,7 +36,7 @@
         </b-form-group>
         <b-row>
           <b-col>
-            <b-button  block variant="info" type="submit">ログイン</b-button>
+            <b-button class="on-login-btn" block variant="info" type="submit">ログイン</b-button>
           </b-col>
 
           <b-col>
