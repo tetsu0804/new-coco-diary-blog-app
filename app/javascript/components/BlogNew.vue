@@ -31,6 +31,13 @@
           ></b-form-textarea>
         </b-form-group>
 
+        <b-form-group
+          id="blog-new-input-3"
+          label-for="blog-new-input-3"
+        >
+          <b-form-input type="hidden" class="sr-only" id="blog-new-input-3" v-model="user_id"></b-form-input>
+        </b-form-group>
+
 
         <b-button class="on-blog-new-btn" block variant="info" type="submit">ブログ作成</b-button>
       </b-form>
@@ -40,20 +47,27 @@
 
 <script>
 import axios from 'axios'
+import { mapState } from 'vuex'
 
   export default {
     data() {
       return {
         title: '',
-        content: ''
+        content: '',
+        user_id: this.$store.state.id
       }
     },
     mounted() {
+    this.$store.dispatch('doFetchDeleteBlogs')
     },
     methods: {
       onBlogNewSubmit() {
-        axios.post
-        this.$store.dispatch('doFetchBlogs', {id: 2, title: this.title, content: this.content})
+        axios.post('/api/v1/blog_new', { title: this.title, content: this.content, user_id: this.user_id })
+        .then(response => {
+          this.$store.dispatch('doFetchBlogs', {id: response.data.blog.id, title: response.data.blog.title, content: response.data.blog.content, user_id: response.data.blog.user_id})
+          this.$router.push('/')
+        })
+
       }
     }
   }
