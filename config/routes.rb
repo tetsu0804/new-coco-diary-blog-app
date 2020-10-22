@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       get '/blogs', controller: :blogs, action: :index
       patch '/blogs/:id', controller: :blogs, action: :update
       delete '/blogs/:id', controller: :blogs, action: :delete
+      get '/blogs/:id', controller: :blogs, action: :show
     end
   end
 end

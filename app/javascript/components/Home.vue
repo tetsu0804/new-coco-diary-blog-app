@@ -1,49 +1,38 @@
 <template>
   <div>
-    <form v-on:submit="onSubmit">
-      登録
-      <p>性</p>
-      <input v-model="last_name">
-      <p>名前</p>
-      <input v-model="first_name">
-      <p>email</p>
-      <input v-model="email">
-
-      <button type="submit">登録</button>
-    </form>
-
-    <div v-for="user in users" :key="user.id">
-      <p>{{ user.last_name }}</p>
-    </div>
+    <b-col cols="12" offset-sm="1" sm="10">
+      <div v-for="blog in blogs" :key="blog.id">
+        <p>{{blog.title}}</P>
+        <b-card
+          :img-src="blog.blog_image"
+          :img-alt="blog.blog_image"
+          img-top
+          img-height="360px"
+          img-width="320px"
+          tag="article"
+          style="width: 20rem;"
+          border-variant="info"
+          >
+        </b-card>
+      </div>
+    </b-col>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+
   export default {
     data() {
       return {
-        last_name: '',
-        first_name: '',
-        email: '',
-        users: []
+        blogs: []
       }
     },
     mounted() {
-      axios.get('/api/v1/users')
+      axios.get('/api/v1/blogs')
       .then(response => {
-        this.users = response.data.users
+        this.blogs = response.data.blogs
       })
-    },
-    methods: {
-      onSubmit() {
-        axios.post('/api/v1/user', { last_name: this.last_name, first_name: this.first_name, email: this.email})
-        .then(response => {
-          this.last_name = ""
-          this.first_name = ""
-          this.email = ""
-        })
-      }
     }
   }
 </script>

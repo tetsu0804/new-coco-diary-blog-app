@@ -10,10 +10,10 @@ class Blog < ApplicationRecord
 
       prefix = image[/(image|application)(\/.*)(?=\;)/]
       type = prefix.sub(/(image|application)(\/)/, '')
-      data = Base64.decode64(image.sub(/data:#{prefix}base64,/, ''))
+      data = Base64.decode64(image.sub(/data:#{prefix};base64,/, ''))
       filename = "#{Time.zone.now.strftime('%Y%m%d%H%M%S%L')}.#{type}"
 
-      File.open("#{Rails.root}/tmp/#{filename}", "wb") do |f|
+      File.open("#{Rails.root}/tmp/#{filename}", 'wb') do |f|
         f.write(data)
       end
 

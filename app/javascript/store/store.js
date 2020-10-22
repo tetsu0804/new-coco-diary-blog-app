@@ -31,7 +31,6 @@ export default new Vuex.Store({
     },
     fetchBlogs(state, {id: id, title: title, content: content, user_id: user_id, created_at: created_at }) {
       let new_blog = {id: id, title: title, content: content, user_id: user_id, created_at: created_at}
-debugger
       state.blogs.push(new_blog)
     },
     fetchDeleteBlogs(state) {
@@ -55,7 +54,7 @@ debugger
       commit('fetchUserSignIn', signin)
     },
     doFetchBlogs( { commit }, { id: id, title: title, content: content, user_id: user_id, created_at: created_at }) {
-      commit('fetchBlogs', { id: id, title: title, content: content, user_id: user_id, created_at: created_at })
+      commit('fetchBlogs', { id: id, title: title, content: content, user_id: user_id, created_at: created_at})
     },
     doFetchDeleteBlogs( { commit }) {
       commit('fetchDeleteBlogs')
