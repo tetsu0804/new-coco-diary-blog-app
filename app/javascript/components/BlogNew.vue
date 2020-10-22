@@ -38,6 +38,13 @@
           <b-form-input type="hidden" class="sr-only" id="blog-new-input-3" v-model="user_id"></b-form-input>
         </b-form-group>
 
+        <b-form-file
+          v-model="file"
+          :state="Boolean(file)"
+          placeholder="ここちゃんの可愛い写真を選んでね"
+          drop-placeholder="Drop file here..."
+          v-on:change="onFileChange()"
+        ></b-form-file>
 
         <b-button class="on-blog-new-btn" block variant="info" type="submit">ブログ作成</b-button>
       </b-form>
@@ -54,20 +61,31 @@ import { mapState } from 'vuex'
       return {
         title: '',
         content: '',
-        user_id: this.$store.state.id
+        user_id: this.$store.state.id,
+        uploadImage: '',
+        file: ''
       }
     },
     mounted() {
-    this.$store.dispatch('doFetchDeleteBlogs')
+
     },
     methods: {
+      onFileChange() {
+        let eventFile = event.target.files[0] || event.dataTransfer.files
+        let reader = new FileReader()
+        let self = this
+        reader.onload = () => {
+          self.uploadImage = event.target.result
+          self.file = this.uploadImage
+        }
+        reader.readAsDataURL(eventFile)
+      },
       onBlogNewSubmit() {
-        axios.post('/api/v1/blog_new', { title: this.title, content: this.content, user_id: this.user_id })
+        axios.post('/api/v1/blog_new', { title: this.title, content: this.content, user_id: this.user_id, image: this.file })
         .then(response => {
-          this.$store.dispatch('doFetchBlogs', {id: response.data.blog.id, title: response.data.blog.title, content: response.data.blog.content, user_id: response.data.blog.user_id})
+          this.$store.dispatch('doFetchBlogs', {id: response.data.blog.id, title: response.data.blog.title, content: response.data.blog.content, user_id: response.data.blog.user_id, created_at: response.data.blog.created_at })
           this.$router.push('/')
         })
-
       }
     }
   }

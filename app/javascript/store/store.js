@@ -29,8 +29,9 @@ export default new Vuex.Store({
     fetchUserSignIn(state, signin) {
       state.signIn = signin
     },
-    fetchBlogs(state, {id: id, title: title, content: content, user_id: user_id}) {
-      let new_blog = {id: id, title: title, content: content, user_id: user_id}
+    fetchBlogs(state, {id: id, title: title, content: content, user_id: user_id, created_at: created_at }) {
+      let new_blog = {id: id, title: title, content: content, user_id: user_id, created_at: created_at}
+debugger
       state.blogs.push(new_blog)
     },
     fetchDeleteBlogs(state) {
@@ -53,8 +54,8 @@ export default new Vuex.Store({
     doFetchUserSignIn( { commit }, signin) {
       commit('fetchUserSignIn', signin)
     },
-    doFetchBlogs( { commit }, { id: id, title: title, content: content, user_id: user_id }) {
-      commit('fetchBlogs', { id: id, title: title, content: content, user_id: user_id })
+    doFetchBlogs( { commit }, { id: id, title: title, content: content, user_id: user_id, created_at: created_at }) {
+      commit('fetchBlogs', { id: id, title: title, content: content, user_id: user_id, created_at: created_at })
     },
     doFetchDeleteBlogs( { commit }) {
       commit('fetchDeleteBlogs')
