@@ -33,6 +33,17 @@ class Api::V1::BlogsController < ApplicationController
     end
   end
 
+  def show
+    blog = Blog.find(params[:id])
+    user = User.find(blog.user_id)
+    if blog.eyecatch.attached?
+      blog.blog_image = encode_base64(blog.eyecatch)
+    else
+      blog.blog_image = "/img/IMG_0883.JPG"
+    end
+    render json: { blog: blog , user: user}
+  end
+
   private
 
     def blog_params

@@ -7,8 +7,9 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import VueAxios from 'vue-axios'
 import { planAxiosInstance } from '../axios/axios'
 import Store from '../store/store'
+import Paginate from 'vuejs-paginate'
 
-
+Vue.component('paginate', Paginate)
 // Vue.use(VueAxios,
 // { plan: planAxiosInstance})
 Vue.use(VueAxios,{plan: planAxiosInstance})
