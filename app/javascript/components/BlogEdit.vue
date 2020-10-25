@@ -8,8 +8,9 @@
           <b-col offset="1" cols="10" sm="6" class="blog-show-edit-title text-info blog-edit-form-top" style="margin: 10px auto;">作成日: {{ blog.created_at}}</b-col>
           <b-col offset="1" cols="10" sm="6" class="blog-show-edit-title text-info blog-edit-form-top" style="margin: 10px auto;">作成者: {{ user.last_name + user.first_name}}さん</b-col>
         </b-row>
-
+        
         <b-form @submit="onBlogEditSubmit" class="blog-edit-form-top">
+
           <b-form-group
             id="blog-edit-input-group-1"
             label="タイトル"

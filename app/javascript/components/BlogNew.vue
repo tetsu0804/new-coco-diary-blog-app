@@ -84,7 +84,7 @@ import { mapState } from 'vuex'
         axios.post('/api/v1/blog_new', { title: this.title, content: this.content, user_id: this.user_id, image: this.file })
         .then(response => {
           this.$store.dispatch('doFetchBlogs', { id: response.data.blog.id, title: response.data.blog.title, content: response.data.blog.content, user_id: response.data.blog.user_id, created_at: response.data.blog.created_at })
-          this.$router.push('/')
+          this.$router.push({ name: 'Home'})
         })
       }
     }

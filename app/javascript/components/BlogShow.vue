@@ -59,7 +59,7 @@ import axios from 'axios'
         axios.delete(`/api/v1/blogs/${this.blog.id}`)
         .then(response => {
           this.$store.dispatch('doFetchNumberDeleteBlogs', this.blog.id)
-          this.$router.push('/')
+          this.$router.push({name: 'Home'})
         })
       }
     }

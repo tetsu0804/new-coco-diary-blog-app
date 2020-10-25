@@ -2,7 +2,7 @@
   <div>
     <b-navbar toggleable="lg" type="dark" variant="info">
       <router-link :to="{name: 'Home'}" class="text-white"> COCO Diary</router-link>
-      <p v-if="last_name" class="header-user-name">{{ last_name + first_name + 'さん'}}</p>
+      <h6 v-if="last_name" class="header-user-name">{{ last_name + first_name + 'さん'}}</h6>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
@@ -12,7 +12,7 @@
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
           <b-nav-item class="text-white" v-on:click="userLogout">ログアウト</b-nav-item>
-          <router-link class="blog-new" :to="{ name: 'BlogNew' }">ブルグ作成</router-link>
+          <router-link class="blog-new header-user-name" :to="{ name: 'BlogNew' }">ブログ作成</router-link>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -44,3 +44,11 @@ import { mapState } from 'vuex'
     }
   }
 </script>
+
+<style scoped>
+  .header-user-name {
+    margin-top: 9px;
+    margin-left: 15px;
+    color:  white;
+  }
+</style>
