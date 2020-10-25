@@ -66,6 +66,9 @@ import axios from 'axios'
         this.prossingBlogs = this.blogs.slice(currentPage - 9, currentPage)
       })
     },
+    mounted() {
+
+    },
     methods: {
       clickCallback(n) {
         this.pageNumber = n

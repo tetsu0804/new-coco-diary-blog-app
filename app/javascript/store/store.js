@@ -33,6 +33,17 @@ export default new Vuex.Store({
       let new_blog = {id: id, title: title, content: content, user_id: user_id, created_at: created_at}
       state.blogs.push(new_blog)
     },
+    fetchNumberDeleteBlogs(state, id) {
+      let blog_delete = state.blogs.filter((result) => {
+         return result.id === id
+      })
+
+      for (let i = 0; i < state.blogs.length; i++) {
+        if(state.blogs[i].id === blog_delete[0].id ){
+          state.blogs.splice(i, 1)
+        }
+      }
+    },
     fetchDeleteBlogs(state) {
       state.blogs = [];
     }
@@ -58,6 +69,9 @@ export default new Vuex.Store({
     },
     doFetchDeleteBlogs( { commit }) {
       commit('fetchDeleteBlogs')
+    },
+    doFetchNumberDeleteBlogs( { commit }, id) {
+      commit('fetchNumberDeleteBlogs', id)
     }
   },
   plugins: [

@@ -33,6 +33,15 @@ class Api::V1::BlogsController < ApplicationController
     end
   end
 
+  def update
+    blog = Blog.find(params[:id])
+    if blog.update_attributes(blog_params)
+      render json: { blog: blog }
+    else
+      render json: "編集失敗しました", status: :unauthorized
+    end
+  end
+
   def show
     blog = Blog.find(params[:id])
     user = User.find(blog.user_id)
@@ -42,6 +51,15 @@ class Api::V1::BlogsController < ApplicationController
       blog.blog_image = "/img/IMG_0883.JPG"
     end
     render json: { blog: blog , user: user}
+  end
+
+  def destroy
+    blog = Blog.find(params[:id])
+    if blog.eyecatch.attached?
+      blog.eyecatch.purge
+    end
+    blog.destroy
+    head :no_content
   end
 
   private

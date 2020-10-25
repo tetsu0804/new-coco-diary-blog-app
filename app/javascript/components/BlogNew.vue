@@ -67,7 +67,7 @@ import { mapState } from 'vuex'
       }
     },
     mounted() {
-debugger
+
     },
     methods: {
       onFileChange() {

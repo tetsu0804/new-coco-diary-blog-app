@@ -8,9 +8,9 @@ Rails.application.routes.draw do
       delete '/logout', controller: :sessions, action: :destroy
       post '/blog_new', controller: :blogs, action: :create
       get '/blogs', controller: :blogs, action: :index
-      patch '/blogs/:id', controller: :blogs, action: :update
-      delete '/blogs/:id', controller: :blogs, action: :delete
       get '/blogs/:id', controller: :blogs, action: :show
+      patch '/blogs/:id', controller: :blogs, action: :update
+      delete '/blogs/:id', controller: :blogs, action: :destroy
     end
   end
 end
