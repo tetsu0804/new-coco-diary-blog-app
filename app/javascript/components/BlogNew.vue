@@ -46,7 +46,14 @@
           v-on:change="onFileChange()"
         ></b-form-file>
 
-        <b-button class="on-blog-new-btn" block variant="info" type="submit">ブログ作成</b-button>
+        <b-row>
+          <b-col cols="12" sm="6">
+            <router-link :to="{ name: 'Home'}" class="btn btn-info on-blog-new-btn blog-new-form-top" style="width: 100%;">戻る</router-link>
+          </b-col>
+          <b-col cols="12" sm="6">
+            <b-button class="on-blog-new-btn blog-new-form-top" block variant="info" type="submit">ブログ作成</b-button>
+          </b-col>
+        </b-row>
       </b-form>
     </b-col>
   </div>

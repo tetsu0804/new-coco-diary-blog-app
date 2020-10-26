@@ -6,6 +6,9 @@ Rails.application.routes.draw do
       get '/users', controller: :users, action: :index
       post '/login', controller: :sessions, action: :create
       delete '/logout', controller: :sessions, action: :destroy
+      get '/users/:id', controller: :users, action: :show
+      patch '/users/:id', controller: :users, action: :update
+      delete '/users/:id', controller: :users, action: :destroy
       post '/blog_new', controller: :blogs, action: :create
       get '/blogs', controller: :blogs, action: :index
       get '/blogs/:id', controller: :blogs, action: :show

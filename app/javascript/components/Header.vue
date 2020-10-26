@@ -2,7 +2,7 @@
   <div>
     <b-navbar toggleable="lg" type="dark" variant="info">
       <router-link :to="{name: 'Home'}" class="text-white"> COCO Diary</router-link>
-      <h6 v-if="last_name" class="header-user-name">{{ last_name + first_name + 'さん'}}</h6>
+      <router-link v-if="last_name" :to="{ name: 'UserShow', params: {id: id}}" class="text-white" style="margin-left: 15px;">{{ last_name + first_name + 'さん'}}</router-link>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
@@ -24,6 +24,7 @@ import { mapState } from 'vuex'
 
   export default {
     computed: mapState({
+      id: state => state.id,
       last_name: state => state.last_name,
       first_name: state => state.first_name
     }),
