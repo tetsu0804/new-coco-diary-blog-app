@@ -55,13 +55,14 @@
           required
         ></b-form-input>
       </b-form-group>
-      <b-row>
-        <b-col>
-          <b-button class="on-signup-btn" block variant="info" type="submit">登録</b-button>
-        </b-col>
 
-        <b-col>
-          <router-link class="btn btn-info signup-signup-btn" :to="{name: 'Login'}">ログイン</router-link>
+      <b-row>
+        <b-col cols="12" sm="6">
+          <router-link class="btn btn-info signup-signup-btn signin-form-top" :to="{name: 'Login'}">ログイン</router-link>
+        </b-col>
+        
+        <b-col cols="12" sm="6">
+          <b-button class="on-signup-btn signin-form-top" block variant="info" type="submit">登録</b-button>
         </b-col>
       </b-row>
 

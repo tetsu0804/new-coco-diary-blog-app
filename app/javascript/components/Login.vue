@@ -34,13 +34,14 @@
             required
           ></b-form-input>
         </b-form-group>
+        
         <b-row>
-          <b-col>
-            <b-button class="on-login-btn" block variant="info" type="submit">ログイン</b-button>
+          <b-col cols="12" sm="6">
+            <router-link class="btn btn-info login-login-btn login-form-top" :to="{name: 'Signup'}">ユーザー登録</router-link>
           </b-col>
 
-          <b-col>
-            <router-link class="btn btn-info login-login-btn" :to="{name: 'Signup'}">ユーザー登録</router-link>
+          <b-col cols="12" sm="6">
+            <b-button class="on-login-btn login-form-top" block variant="info" type="submit">ログイン</b-button>
           </b-col>
         </b-row>
       </b-form>
@@ -71,7 +72,7 @@
           this.loginTrue(document.cookie)
           this.email = ''
           this.password = ''
-          this.$router.push('/')
+          this.$router.push({ name: 'Home' })
         }).catch(error => {
           this.loginFailure(error)
         })

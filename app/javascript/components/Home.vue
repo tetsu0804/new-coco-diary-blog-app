@@ -67,6 +67,7 @@ import axios from 'axios'
       })
     },
     mounted() {
+
     },
     methods: {
       clickCallback(n) {

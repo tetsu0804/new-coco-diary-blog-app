@@ -1,21 +1,22 @@
 <template>
   <div>
-    <b-navbar toggleable="lg" type="dark" variant="info">
-      <router-link :to="{name: 'Home'}" class="text-white"> COCO Diary</router-link>
-      <router-link v-if="last_name" :to="{ name: 'UserShow', params: {id: id}}" class="text-white" style="margin-left: 15px;">{{ last_name + first_name + 'さん'}}</router-link>
-      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+    <b-row v-if="signIn === true">
+      <b-col cols="12">
+        <b-navbar toggleable="lg" type="dark" variant="info">
+          <router-link :to="{name: 'Home'}" class="text-white"> COCO Diary</router-link>
+          <router-link v-if="last_name" :to="{ name: 'UserShow', params: {id: id}}" class="text-white" style="margin-left: 15px;">{{ last_name + first_name + 'さん'}}</router-link>
+          <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
-      <b-collapse id="nav-collapse" is-nav>
-        <router-link :to="{name: 'Signup'}">ユーザー登録</router-link>
-        <router-link :to="{name: 'Login'}">ログイン</router-link>
-
-        <!-- Right aligned nav items -->
-        <b-navbar-nav class="ml-auto">
-          <b-nav-item class="text-white" v-on:click="userLogout">ログアウト</b-nav-item>
-          <router-link class="blog-new header-user-name" :to="{ name: 'BlogNew' }">ブログ作成</router-link>
-        </b-navbar-nav>
-      </b-collapse>
-    </b-navbar>
+          <b-collapse id="nav-collapse" is-nav>
+            <!-- Right aligned nav items -->
+            <b-navbar-nav class="ml-auto">
+              <b-nav-item class="text-white" v-on:click="userLogout">ログアウト</b-nav-item>
+              <router-link class="blog-new header-user-name" :to="{ name: 'BlogNew' }">ブログ作成</router-link>
+            </b-navbar-nav>
+          </b-collapse>
+        </b-navbar>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
@@ -26,7 +27,8 @@ import { mapState } from 'vuex'
     computed: mapState({
       id: state => state.id,
       last_name: state => state.last_name,
-      first_name: state => state.first_name
+      first_name: state => state.first_name,
+      signIn: state => state.signIn
     }),
     methods: {
       userLogout() {

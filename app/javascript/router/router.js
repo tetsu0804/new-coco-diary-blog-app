@@ -8,6 +8,7 @@ import BlogShow from '../components/BlogShow.vue'
 import BlogEdit from '../components/BlogEdit.vue'
 import UserShow from '../components/UserShow.vue'
 import UserEdit from '../components/UserEdit.vue'
+import store from '../store/store'
 
 Vue.use(Router)
 
@@ -24,4 +25,22 @@ const router = new Router({
   ]
 })
 
+router.beforeEach((to, from, next) => {
+  let documentCookies = document.cookie.split(';')
+  let cookie_trim_box = []
+  for(let i = 0; i < documentCookies.length; i++) {
+    cookie_trim_box.push(documentCookies[i].trim())
+  }
+
+  if(to.name === 'Signup' && !cookie_trim_box.includes('signIn=true') ) {
+    next()
+  } else if (to.name !== 'Login' && !cookie_trim_box.includes('signIn=true')) {
+    next({ name: 'Login' })
+  } else if (to.name === 'Login' && cookie_trim_box.includes('signIn=true')) {
+    next({ name: 'Home' })
+  } else {
+    next()
+  }
+
+})
 export default router
