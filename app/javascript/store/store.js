@@ -45,7 +45,9 @@ export default new Vuex.Store({
       }
     },
     fetchDeleteBlogs(state) {
-      state.blogs = [];
+      for(let i = 0; i < state.blogs.length; i ++){
+        state.blogs.splice(0, state.blogs.length)
+      }
     }
   },
   actions: {
