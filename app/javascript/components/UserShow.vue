@@ -24,14 +24,16 @@
 
           <b-row>
             <b-col offset="1" cols="10" offset-sm="0" sm="4">
-              <router-link :to="{ name: 'Home'}" class="btn btn-info user-show-child-btn">戻る</router-link>
+              <router-link :to="{ name: 'Home'}" class="btn btn-info user-show-child-btn">トップページ</router-link>
             </b-col>
-            <b-col offset="1" cols="10" offset-sm="0" sm="4">
-              <router-link :to="{ name: 'UserEdit', params: { id: user.id }}" class="btn btn-info user-show-child-btn">編集</router-link>
-            </b-col>
-            <b-col offset="1" cols="10" offset-sm="0" sm="4">
-              <b-button v-on:click="deleteUserSubmit" class="btn btn-danger user-show-child-btn">削除</b-button>
-            </b-col>
+            <template v-if="user.id === id">
+              <b-col offset="1" cols="10" offset-sm="0" sm="4">
+                <router-link :to="{ name: 'UserEdit', params: { id: user.id }}" class="btn btn-info user-show-child-btn">編集</router-link>
+              </b-col>
+              <b-col offset="1" cols="10" offset-sm="0" sm="4">
+                <b-button v-on:click="deleteUserSubmit" class="btn btn-danger user-show-child-btn">削除</b-button>
+              </b-col>
+            </template>
           </b-row>
       </b-col>
     </b-row>
@@ -40,12 +42,17 @@
 
 <script>
 import axios from 'axios'
+import { mapState } from 'vuex'
+
   export default {
     data() {
       return {
         user: {}
       }
     },
+    computed: mapState({
+      id: state => state.id
+    }),
     created() {
       axios.get(`/api/v1/users/${this.$route.params.id}`)
       .then(response => {

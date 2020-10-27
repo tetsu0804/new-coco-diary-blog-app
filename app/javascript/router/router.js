@@ -32,11 +32,24 @@ router.beforeEach((to, from, next) => {
     cookie_trim_box.push(documentCookies[i].trim())
   }
 
+  const blog_user_number = (id) => {
+    let store_blogs = store.state.blogs
+    for(let i = 0; i < store_blogs.length; i++) {
+      if(store_blogs[i].id === id) {
+        return store_blogs[i].user_id
+      }
+    }
+  }
+
   if(to.name === 'Signup' && !cookie_trim_box.includes('signIn=true') ) {
     next()
   } else if (to.name !== 'Login' && !cookie_trim_box.includes('signIn=true')) {
     next({ name: 'Login' })
   } else if (to.name === 'Login' && cookie_trim_box.includes('signIn=true')) {
+    next({ name: 'Home' })
+  } else if(to.name === 'UserEdit' && Number(to.params.id) !== store.state.id ){
+    next({ name: 'Home' })
+  } else if(to.name === 'BlogEdit' && blog_user_number(Number(to.params.id)) !== store.state.id ) {
     next({ name: 'Home' })
   } else {
     next()

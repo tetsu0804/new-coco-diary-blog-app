@@ -3,8 +3,12 @@
     <b-row>
       <b-col cols="12" offset-sm="1" sm="10">
         <b-row>
-          <b-col offset="1" cols="10" sm="5" class="blog-show-title text-info">作成日: {{ blog.created_at}}</b-col>
-          <b-col offset="1" cols="10" offset-sm="0" sm="5" class="blog-show-title text-info">作成者: {{ user.last_name + user.first_name}}さん</b-col>
+          <b-col offset="1" cols="10" sm="5" class="blog-show-title text-info">作成日: {{ blog.created_at | moment('YYYY年M月D日')}}</b-col>
+          <b-col offset="1" cols="10" offset-sm="0" sm="5" class="blog-show-title">
+            <router-link :to="{ name: 'UserShow', params: { id: user.id }}" class="text-info">
+              作成者: {{ user.last_name + user.first_name}}さん
+            </router-link>
+          </b-col>
           <b-col offset="1" cols="10" class="blog-show-title text-info">タイトル: {{ blog.title}}</b-col>
         </b-row>
 
@@ -25,12 +29,14 @@
             <b-col cols="12" sm="4" class="blog-show-btn">
               <router-link :to="{ name: 'Home'}" class="btn btn-info blog-show-child-btn">トップページ</router-link>
             </b-col>
-            <b-col cols="12" sm="4" class="blog-show-btn">
-              <router-link :to="{ name: 'BlogEdit', params: { id: blog.id }}" class="btn btn-info blog-show-child-btn">編集</router-link>
-            </b-col>
-            <b-col cols="12" sm="4" class="blog-show-btn-delete">
-              <b-button v-on:click="blogDelete" variant="danger" class="blog-delete">削除</b-button>
-            </b-col>
+            <template v-if="blog.user_id === id">
+              <b-col cols="12" sm="4" class="blog-show-btn">
+                <router-link :to="{ name: 'BlogEdit', params: { id: blog.id }}" class="btn btn-info blog-show-child-btn">編集</router-link>
+              </b-col>
+              <b-col cols="12" sm="4" class="blog-show-btn-delete">
+                <b-button v-on:click="blogDelete" variant="danger" class="blog-delete">削除</b-button>
+              </b-col>
+            </template>
           </b-row>
         </b-card>
       </b-col>
@@ -40,6 +46,8 @@
 
 <script>
 import axios from 'axios'
+import { mapState } from 'vuex'
+
   export default {
     data() {
       return {
@@ -47,6 +55,12 @@ import axios from 'axios'
         user: {}
       }
     },
+    computed: mapState({
+      id: state => state.id,
+      last_name: state => state.last_name,
+      first_name: state => state.first_name,
+      email: state => state.email
+    }),
     mounted() {
       axios.get(`/api/v1/blogs/${this.$route.params.id}`)
       .then(response => {

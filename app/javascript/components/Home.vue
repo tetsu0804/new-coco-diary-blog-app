@@ -15,7 +15,14 @@
               border-variant="info"
               class="home-top"
               >
-              <router-link :to="{ name: 'BlogShow', params: { id: blog.id }}">{{ blog.title }}</router-link>
+              <b-row>
+                <b-col cols="12" style="border-bottom: solid 1px rgb(207, 207, 207); text-align: center;">
+                  <router-link :to="{ name: 'BlogShow', params: { id: blog.id }}" class="text-info">{{ blog.created_at | moment('D日') }}</router-link>
+                </b-col>
+                <b-col cols="12" style="text-align: center; margin-top: 10px;">
+                  <router-link :to="{ name: 'BlogShow', params: { id: blog.id }}" class="text-info">{{ blog.title }}</router-link>
+                </b-col>
+              </b-row>
             </b-card>
           </div>
         </b-card-group>

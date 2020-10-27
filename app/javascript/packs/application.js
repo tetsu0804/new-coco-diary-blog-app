@@ -9,6 +9,8 @@ import { planAxiosInstance } from '../axios/axios'
 import Store from '../store/store'
 import Paginate from 'vuejs-paginate'
 
+Vue.use(require('vue-moment'))
+
 Vue.component('paginate', Paginate)
 // Vue.use(VueAxios,
 // { plan: planAxiosInstance})

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="sticky-top">
     <b-row v-if="signIn === true">
       <b-col cols="12">
         <b-navbar toggleable="lg" type="dark" variant="info">
