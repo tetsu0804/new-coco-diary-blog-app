@@ -22,18 +22,23 @@
             </b-col>
           </b-row>
 
-          <b-row>
+          <b-row id="user_match" v-if="user.id === user_id">
             <b-col offset="1" cols="10" offset-sm="0" sm="4">
               <router-link :to="{ name: 'Home'}" class="btn btn-info user-show-child-btn">トップページ</router-link>
             </b-col>
-            <template v-if="user.id === id">
-              <b-col offset="1" cols="10" offset-sm="0" sm="4">
-                <router-link :to="{ name: 'UserEdit', params: { id: user.id }}" class="btn btn-info user-show-child-btn">編集</router-link>
-              </b-col>
-              <b-col offset="1" cols="10" offset-sm="0" sm="4">
-                <b-button v-on:click="deleteUserSubmit" class="btn btn-danger user-show-child-btn">削除</b-button>
-              </b-col>
-            </template>
+
+            <b-col offset="1" cols="10" offset-sm="0" sm="4">
+              <router-link :to="{ name: 'UserEdit', params: { id: user.id }}" class="btn btn-info user-show-child-btn">編集</router-link>
+            </b-col>
+
+            <b-col offset="1" cols="10" offset-sm="0" sm="4">
+              <b-button id="delete-user-show-btn" v-on:click="deleteUserSubmit" class="btn btn-danger user-show-child-btn">削除</b-button>
+            </b-col>
+          </b-row>
+          <b-row v-else>
+            <b-col cols="12">
+              <router-link :to="{ name: 'Home'}" class="btn btn-info user-show-child-btn">トップページ</router-link>
+            </b-col>
           </b-row>
       </b-col>
     </b-row>
@@ -51,7 +56,7 @@ import { mapState } from 'vuex'
       }
     },
     computed: mapState({
-      id: state => state.id
+      user_id: (state) => state.id
     }),
     created() {
       axios.get(`/api/v1/users/${this.$route.params.id}`)
@@ -63,7 +68,6 @@ import { mapState } from 'vuex'
     },
     methods: {
       deleteUserSubmit() {
-      debugger
         axios.delete(`/api/v1/users/${this.user.id}`)
         .then(response => {
           document.cookie = "cookie=; max-age=0"
