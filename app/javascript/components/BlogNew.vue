@@ -51,7 +51,7 @@
             <router-link :to="{ name: 'Home'}" class="btn btn-info on-blog-new-btn blog-new-form-top" style="width: 100%;">戻る</router-link>
           </b-col>
           <b-col cols="12" sm="6">
-            <b-button class="on-blog-new-btn blog-new-form-top" block variant="info" type="submit">ブログ作成</b-button>
+            <b-button id="new_blog_create" class="on-blog-new-btn blog-new-form-top" block variant="info" type="submit">ブログ作成</b-button>
           </b-col>
         </b-row>
       </b-form>
@@ -62,7 +62,6 @@
 <script>
 import axios from 'axios'
 import { mapState } from 'vuex'
-
   export default {
     data() {
       return {
@@ -73,8 +72,7 @@ import { mapState } from 'vuex'
         file: ''
       }
     },
-    mounted() {
-
+    created() {
     },
     methods: {
       onFileChange() {

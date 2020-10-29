@@ -85,6 +85,7 @@ import axios from 'axios'
         return new Promise((resolve, _) => {
           axios.patch(`/api/v1/blogs/${this.blog.id}`, { title: this.blog.title, content: this.blog.content, user_id: this.blog.user_id})
           .then(response => {
+            this.$store.dispatch('doFetchEditBlogs', { id: response.data.blog.id, title: response.data.blog.title, content: response.data.blog.content, user_id: response.data.blog.user_id, created_at: response.data.blog.created_at})
             this.$router.push({ name: 'BlogShow', params: { id: response.data.blog.id }})
           })
         })

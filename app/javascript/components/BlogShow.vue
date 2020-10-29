@@ -67,6 +67,7 @@ import { mapState } from 'vuex'
         this.blog = response.data.blog
         this.user = response.data.user
       })
+    debugger
     },
     methods: {
       blogDelete() {

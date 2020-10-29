@@ -67,9 +67,6 @@ describe('UserShowでのstore.stateのidとaxiosでのuser.idが一致する為�
       }
     })
 
-
-    console.log(user_show_wrapper.html())
-
     expect(user_show_wrapper.vm.user.id).toBe(1)
     //dataのlast_nameがaxios.getした時の値になっているのかを確認
     expect(user_show_wrapper.vm.user.last_name).toEqual('吉田')
@@ -154,7 +151,6 @@ describe('store.state.idとaxios.getでのidが一致しない為削除ボタン
         user_id: () => store.state.id
       }
     })
-    console.log(user_show_no_store_wrapper.html())
     // 削除ボタンが無いことを確認
     expect(user_show_no_store_wrapper.contains('#delete-user-show-btn')).toBe(false)
   })

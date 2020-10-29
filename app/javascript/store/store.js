@@ -33,6 +33,21 @@ export default new Vuex.Store({
       let new_blog = {id: id, title: title, content: content, user_id: user_id, created_at: created_at}
       state.blogs.push(new_blog)
     },
+    fetchEditBlogs(state, {id: id, title: title, content: content, user_id: user_id, created_at: created_at }) {
+      let blog_edit_result = state.blogs.filter((result) => {
+        return result.id === id
+      })
+
+      for(let i = 0; i < state.blogs.length; i++) {
+        if( state.blogs[i].id === blog_edit_result[0].id) {
+          state.blogs[i].id = id
+          state.blogs[i].title = title
+          state.blogs[i].content = content
+          state.blogs[i].user_id = user_id
+          state.blogs[i].created_at = created_at
+        }
+      }
+    },
     fetchNumberDeleteBlogs(state, id) {
       let blog_delete = state.blogs.filter((result) => {
          return result.id === id
@@ -68,6 +83,9 @@ export default new Vuex.Store({
     },
     doFetchBlogs( { commit }, { id: id, title: title, content: content, user_id: user_id, created_at: created_at }) {
       commit('fetchBlogs', { id: id, title: title, content: content, user_id: user_id, created_at: created_at})
+    },
+    doFetchEditBlogs( { commit }, { id: id, title: title, content: content, user_id: user_id, created_at: created_at }) {
+      commit('fetchEditBlogs', { id: id, title: title, content: content, user_id: user_id, created_at: created_at })
     },
     doFetchDeleteBlogs( { commit }) {
       commit('fetchDeleteBlogs')
