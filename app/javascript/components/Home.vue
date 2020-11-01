@@ -74,9 +74,6 @@ import axios from 'axios'
       })
     },
     mounted() {
-
-    this.$store.dispatch('doFetchDeleteBlogs')
-
     },
     methods: {
       clickCallback(n) {
