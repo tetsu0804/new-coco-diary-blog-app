@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_22_061833) do
+ActiveRecord::Schema.define(version: 2020_11_01_084046) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -43,6 +43,14 @@ ActiveRecord::Schema.define(version: 2020_10_22_061833) do
     t.index ["user_id"], name: "index_blogs_on_user_id"
   end
 
+  create_table "shits", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.time "shit_time"
+    t.bigint "blog_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["blog_id"], name: "index_shits_on_blog_id"
+  end
+
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "last_name", null: false
     t.string "first_name", null: false
@@ -54,4 +62,5 @@ ActiveRecord::Schema.define(version: 2020_10_22_061833) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "blogs", "users"
+  add_foreign_key "shits", "blogs"
 end

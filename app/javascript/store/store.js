@@ -11,7 +11,8 @@ export default new Vuex.Store({
     first_name: '',
     email: '',
     signIn: '',
-    blogs: []
+    blogs: [],
+    shits: []
   },
   mutations: {
     fetchUserId(state, id) {
@@ -63,6 +64,11 @@ export default new Vuex.Store({
       for(let i = 0; i < state.blogs.length; i ++){
         state.blogs.splice(0, state.blogs.length)
       }
+    },
+    fetchShit(state, { id: id, shit_time: shit_time, blog_id: blog_id, created_at: created_at }) {
+      const shit_value = { id: id, shit_time: shit_time, blog_id: blog_id, created_at: created_at }
+  
+      state.shits.push(shit_value)
     }
   },
   actions: {
@@ -92,6 +98,9 @@ export default new Vuex.Store({
     },
     doFetchNumberDeleteBlogs( { commit }, id) {
       commit('fetchNumberDeleteBlogs', id)
+    },
+    doFetchShits( { commit }, { id: id, shit_time: shit_time, blog_id: blog_id, created_at: created_at }) {
+      commit('fetchShit', { id: id, shit_time: shit_time, blog_id: blog_id, created_at: created_at })
     }
   },
   plugins: [

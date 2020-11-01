@@ -27,7 +27,9 @@ class Api::V1::BlogsController < ApplicationController
       if Rails.env.development?
         blog.eyecatch = blog_params[:image]
       end
-      render json: { blog: blog }
+      shit = Shit.create(shit_time: params[:shit_time], blog_id: blog.id)
+
+      render json: { blog: blog, shit: shit }
     else
       render json: "日記の作成失敗しました", status: :unauthorized
     end
@@ -66,9 +68,9 @@ class Api::V1::BlogsController < ApplicationController
 
     def blog_params
       if Rails.env.production?
-        params.permit(:title, :content, :user_id)
+        params.permit(:title, :content, :user_id, shits_attribute: [ :shit_time ])
       else
-        params.permit(:title, :content, :user_id, :image)
+        params.permit(:title, :content, :user_id, :image, shits_attribute: [ :shit_time ])
       end
     end
 

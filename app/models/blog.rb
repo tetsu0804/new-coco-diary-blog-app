@@ -1,4 +1,5 @@
 class Blog < ApplicationRecord
+  has_many :shits, dependent: :destroy
   has_one_attached :eyecatch
   attr_accessor :image
   belongs_to :user
