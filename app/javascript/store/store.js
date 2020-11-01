@@ -61,9 +61,7 @@ export default new Vuex.Store({
       }
     },
     fetchDeleteBlogs(state) {
-      for(let i = 0; i < state.blogs.length; i ++){
-        state.blogs.splice(0, state.blogs.length)
-      }
+      state.blogs.splice(0, state.blogs.length)
     },
     fetchShit(state, { id: id, shit_time: shit_time, blog_id: blog_id, created_at: created_at }) {
       const shit_value = { id: id, shit_time: shit_time, blog_id: blog_id, created_at: created_at }
