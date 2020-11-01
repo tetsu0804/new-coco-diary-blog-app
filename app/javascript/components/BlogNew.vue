@@ -11,10 +11,10 @@
             </b-col>
             <b-row>
               <b-col cols="12" sm="6">
-                <b-form-select v-on:change="changeTime" v-model="houred" :options="hour_options"></b-form-select>
+                <b-form-select v-on:change="changeTime" v-model="houred" :options="hour_options" class="blog-new-form-top"></b-form-select>
               </b-col>
               <b-col cols="12" sm="6">
-                <b-form-select v-on:change="changeTime" v-model="minuted" :options="minute_options"></b-form-select>
+                <b-form-select v-on:change="changeTime" v-model="minuted" :options="minute_options" class="blog-new-form-top"></b-form-select>
               </b-col>
             </b-row>
           </b-card>
@@ -24,6 +24,7 @@
           id="blog-new-input-group-1"
           label="タイトル"
           label-for="blog-new-input-1"
+          class="blog-new-form-top"
         >
           <b-form-input
             id="blog-new-input-1"
@@ -137,7 +138,7 @@ const minute_first_value = { value: null, text: 'minute'}
           this.$store.dispatch('doFetchBlogs', { id: response.data.blog.id, title: response.data.blog.title, content: response.data.blog.content, user_id: response.data.blog.user_id, created_at: response.data.blog.created_at })
 
           this.$store.dispatch('doFetchShits', {id: response.data.shit.id, shit_time: response.data.shit.shit_time, blog_id: response.data.shit.blog_id, created_at: response.data.shit.created_at })
-          
+
           this.$router.push({ name: 'Home'})
         })
       },

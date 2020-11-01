@@ -10,6 +10,8 @@
             </router-link>
           </b-col>
           <b-col offset="1" cols="10" class="blog-show-title text-info">タイトル: {{ blog.title}}</b-col>
+
+          <b-col v-for="shit in shits" :key="shit.id" offset="1" cols="10" class="blog-show-title text-info">うんち時間: {{ shit.shit_time | moment('kk時mm分') }}</b-col>
         </b-row>
 
         <b-card
@@ -52,7 +54,8 @@ import { mapState } from 'vuex'
     data() {
       return {
         blog: {},
-        user: {}
+        user: {},
+        shits: []
       }
     },
     computed: mapState({
@@ -66,8 +69,8 @@ import { mapState } from 'vuex'
       .then(response => {
         this.blog = response.data.blog
         this.user = response.data.user
+        this.shits= response.data.shits
       })
-    debugger
     },
     methods: {
       blogDelete() {

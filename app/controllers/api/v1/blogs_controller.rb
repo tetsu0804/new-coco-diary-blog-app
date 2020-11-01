@@ -38,7 +38,8 @@ class Api::V1::BlogsController < ApplicationController
   def update
     blog = Blog.find(params[:id])
     if blog.update_attributes(blog_params)
-      render json: { blog: blog }
+      shit = Shit.create(shit_time: params[:shit_time], blog_id: blog.id)
+      render json: { blog: blog, shit: shit }
     else
       render json: "編集失敗しました", status: :unauthorized
     end
@@ -52,7 +53,9 @@ class Api::V1::BlogsController < ApplicationController
     else
       blog.blog_image = "/img/IMG_0883.JPG"
     end
-    render json: { blog: blog , user: user}
+    shits = Shit.where('blog_id = ?', blog.id)
+
+    render json: { blog: blog , user: user, shits: shits}
   end
 
   def destroy

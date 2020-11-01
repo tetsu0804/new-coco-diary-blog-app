@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  namespace :api do
+    namespace :v1 do
+      get 'shits/destroy'
+    end
+  end
   root to: 'home#index'
   namespace :api do
     namespace :v1 do
@@ -14,6 +19,7 @@ Rails.application.routes.draw do
       get '/blogs/:id', controller: :blogs, action: :show
       patch '/blogs/:id', controller: :blogs, action: :update
       delete '/blogs/:id', controller: :blogs, action: :destroy
+      delete '/shits/:id', controller: :shits, action: :destroy
     end
   end
 end

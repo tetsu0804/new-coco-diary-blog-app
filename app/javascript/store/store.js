@@ -67,8 +67,18 @@ export default new Vuex.Store({
     },
     fetchShit(state, { id: id, shit_time: shit_time, blog_id: blog_id, created_at: created_at }) {
       const shit_value = { id: id, shit_time: shit_time, blog_id: blog_id, created_at: created_at }
-  
+
       state.shits.push(shit_value)
+    },
+    fetchDeleteShit(state, id) {
+      const delete_shit = state.shits.filter((result) => {
+        return result.id === id
+      })
+      for(let i = 0; i < state.shits.length; i++) {
+        if(state.shits[i].id === delete_shit[0].id) {
+          state.shits.splice(i, 1)
+        }
+      }
     }
   },
   actions: {
@@ -101,6 +111,9 @@ export default new Vuex.Store({
     },
     doFetchShits( { commit }, { id: id, shit_time: shit_time, blog_id: blog_id, created_at: created_at }) {
       commit('fetchShit', { id: id, shit_time: shit_time, blog_id: blog_id, created_at: created_at })
+    },
+    doFetchDeleteShit( { commit }, id) {
+      commit('fetchDeleteShit', id)
     }
   },
   plugins: [

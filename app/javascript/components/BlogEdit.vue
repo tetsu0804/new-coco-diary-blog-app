@@ -9,12 +9,36 @@
           <b-col offset="1" cols="10" sm="6" class="blog-show-edit-title text-info blog-edit-form-top" style="margin: 10px auto;">作成者: {{ user.last_name + user.first_name}}さん</b-col>
         </b-row>
 
+        <b-row>
+          <b-col v-for="shit in shits" :key="shit.id" offset="1" cols="10" offset-sm="0" sm="12" class="blog-show-edit-title text-info blog-edit-form-top" style="margin: 10px auto; height: 40px; line-height: 40px;">
+          うんち時間: {{ shit.shit_time | moment('kk時mm分') }}
+          <div v-on:click="shitDelete(shit.id)" class="btn btn-danger shit-delete-btn">削除</div>
+          </b-col>
+        </b-row>
+
         <b-form @submit="onBlogEditSubmit" class="blog-edit-form-top">
+
+          <b-col cols="12">
+            <b-card>
+              <b-col cols="12">
+                うんち時間:
+              </b-col>
+              <b-row>
+                <b-col cols="12" sm="6">
+                  <b-form-select v-on:change="changeTimeEdit" v-model="houred" :options="edit_hour_options" class="blog-edit-form-top"></b-form-select>
+                </b-col>
+                <b-col cols="12" sm="6">
+                  <b-form-select v-on:change="changeTimeEdit" v-model="minuted" :options="edit_minute_options" class="blog-edit-form-top"></b-form-select>
+                </b-col>
+              </b-row>
+            </b-card>
+          </b-col>
 
           <b-form-group
             id="blog-edit-input-group-1"
             label="タイトル"
             label-for="blog-edit-input-1"
+            class="blog-edit-form-top"
           >
             <b-form-input
               id="blog-edit-input-1"
@@ -63,11 +87,39 @@
 
 <script>
 import axios from 'axios'
+
+const edit_hour_options = []
+const edit_minute_options = []
+const first_edit_hour_value = { value: null, text: 'hour'}
+const first_edit_minute_value = { value: null, text: 'minute'}
+
+  for(let i = 0; i < 60; i++) {
+    let edit_hour = { value: '', text: '' }
+    let edit_minute = { value: '', text: '' }
+    if(i < 24) {
+      edit_hour.value = i + 1
+      edit_hour.text = i + 1
+      edit_hour_options.push(edit_hour)
+    }
+
+    edit_minute.value = i + 1
+    edit_minute.text = i + 1
+    edit_minute_options.push(edit_minute)
+  }
+  edit_hour_options.unshift(first_edit_hour_value)
+  edit_minute_options.unshift(first_edit_minute_value)
+
   export default {
     data() {
       return {
         blog: {},
-        user: {}
+        user: {},
+        shits: [],
+        houred: null,
+        minuted: null,
+        edit_hour_options,
+        edit_minute_options,
+        edit_time_now: new Date()
       }
     },
     created() {
@@ -76,6 +128,7 @@ import axios from 'axios'
         let self = this
         self.blog = response.data.blog
         self.user = response.data.user
+        self.shits = response.data.shits
       })
     },
     mounted() {
@@ -83,12 +136,28 @@ import axios from 'axios'
     methods: {
       onBlogEditSubmit() {
         return new Promise((resolve, _) => {
-          axios.patch(`/api/v1/blogs/${this.blog.id}`, { title: this.blog.title, content: this.blog.content, user_id: this.blog.user_id})
+          axios.patch(`/api/v1/blogs/${this.blog.id}`, { title: this.blog.title, content: this.blog.content, user_id: this.blog.user_id, shit_time: this.edit_time_now })
           .then(response => {
             this.$store.dispatch('doFetchEditBlogs', { id: response.data.blog.id, title: response.data.blog.title, content: response.data.blog.content, user_id: response.data.blog.user_id, created_at: response.data.blog.created_at})
+
+            this.$store.dispatch('doFetchShits', {id: response.data.shit.id, shit_time: response.data.shit.shit_time, blog_id: response.data.shit.blog_id, created_at: response.data.shit.created_at })
+
             this.$router.push({ name: 'BlogShow', params: { id: response.data.blog.id }})
           })
         })
+      },
+      shitDelete(shit) {
+        axios.delete(`/api/v1/shits/${shit}`)
+        .then(response => {
+          this.$store.dispatch('doFetchDeleteShit', shit)
+          this.$router.push({ name: 'BlogShow', params: { id: this.blog.id }})
+        })
+      },
+      changeTimeEdit() {
+        this.changeNumberEdit(this.houred, this.minuted)
+      },
+      changeNumberEdit(hour, minute) {
+        this.edit_time_now.setHours(hour, minute).toDateString()
       }
     }
   }
@@ -103,5 +172,11 @@ import axios from 'axios'
   }
   .blog-edit-show-btn {
     width: 100%;
+  }
+  .shit-delete-btn {
+    float: right;
+    width: 100px;
+    height: 35px;
+    margin-top: 1px;
   }
 </style>
