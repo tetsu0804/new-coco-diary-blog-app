@@ -11,10 +11,10 @@
             </b-col>
             <b-row>
               <b-col cols="12" sm="6">
-                <b-form-select v-on:change="changeTime" v-model="houred" :options="hour_options" class="blog-new-form-top"></b-form-select>
+                <b-form-select id="shit_new_hour" v-on:change="changeTime" v-model="houred" :options="hour_options" class="blog-new-form-top"></b-form-select>
               </b-col>
               <b-col cols="12" sm="6">
-                <b-form-select v-on:change="changeTime" v-model="minuted" :options="minute_options" class="blog-new-form-top"></b-form-select>
+                <b-form-select id="shit_new_minute" v-on:change="changeTime" v-model="minuted" :options="minute_options" class="blog-new-form-top"></b-form-select>
               </b-col>
             </b-row>
           </b-card>

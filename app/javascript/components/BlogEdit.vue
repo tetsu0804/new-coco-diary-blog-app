@@ -25,10 +25,10 @@
               </b-col>
               <b-row>
                 <b-col cols="12" sm="6">
-                  <b-form-select v-on:change="changeTimeEdit" v-model="houred" :options="edit_hour_options" class="blog-edit-form-top"></b-form-select>
+                  <b-form-select id="edit_shit_hour" v-on:change="changeTimeEdit" v-model="houred" :options="edit_hour_options" class="blog-edit-form-top"></b-form-select>
                 </b-col>
                 <b-col cols="12" sm="6">
-                  <b-form-select v-on:change="changeTimeEdit" v-model="minuted" :options="edit_minute_options" class="blog-edit-form-top"></b-form-select>
+                  <b-form-select id="edit_shit_minute" v-on:change="changeTimeEdit" v-model="minuted" :options="edit_minute_options" class="blog-edit-form-top"></b-form-select>
                 </b-col>
               </b-row>
             </b-card>
