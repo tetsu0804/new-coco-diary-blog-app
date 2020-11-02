@@ -5,7 +5,8 @@ class Blog < ApplicationRecord
   belongs_to :user
   validates :title, presence: true, length: { maximum: 20 }
   validates :content, presence: true, length: { maximum: 300 }
-
+  validates :break_first, numericality: { only_integer: true }
+  validates :dinner, numericality: { only_integer: true }
   def eyecatch=(image)
     if image.present?
 
