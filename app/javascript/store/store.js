@@ -30,11 +30,11 @@ export default new Vuex.Store({
     fetchUserSignIn(state, signin) {
       state.signIn = signin
     },
-    fetchBlogs(state, {id: id, title: title, content: content, user_id: user_id, created_at: created_at }) {
-      let new_blog = {id: id, title: title, content: content, user_id: user_id, created_at: created_at}
+    fetchBlogs(state, {id: id, title: title, content: content, user_id: user_id, created_at: created_at, break_first: break_first, dinner: dinner }) {
+      let new_blog = {id: id, title: title, content: content, user_id: user_id, created_at: created_at, break_first: break_first, dinner: dinner}
       state.blogs.push(new_blog)
     },
-    fetchEditBlogs(state, {id: id, title: title, content: content, user_id: user_id, created_at: created_at }) {
+    fetchEditBlogs(state, {id: id, title: title, content: content, user_id: user_id, created_at: created_at, break_first: break_first, dinner: dinner }) {
       let blog_edit_result = state.blogs.filter((result) => {
         return result.id === id
       })
@@ -46,6 +46,8 @@ export default new Vuex.Store({
           state.blogs[i].content = content
           state.blogs[i].user_id = user_id
           state.blogs[i].created_at = created_at
+          state.blogs[i].break_first = break_first
+          state.blogs[i].dinner = dinner
         }
       }
     },
@@ -64,6 +66,7 @@ export default new Vuex.Store({
       state.blogs.splice(0, state.blogs.length)
     },
     fetchShit(state, { id: id, shit_time: shit_time, blog_id: blog_id, created_at: created_at }) {
+
       const shit_value = { id: id, shit_time: shit_time, blog_id: blog_id, created_at: created_at }
 
       state.shits.push(shit_value)
@@ -77,6 +80,9 @@ export default new Vuex.Store({
           state.shits.splice(i, 1)
         }
       }
+    },
+    fetchAllDeleteShit(state) {
+      state.shits.splice(0, state.shits.length)
     }
   },
   actions: {
@@ -95,11 +101,11 @@ export default new Vuex.Store({
     doFetchUserSignIn( { commit }, signin) {
       commit('fetchUserSignIn', signin)
     },
-    doFetchBlogs( { commit }, { id: id, title: title, content: content, user_id: user_id, created_at: created_at }) {
-      commit('fetchBlogs', { id: id, title: title, content: content, user_id: user_id, created_at: created_at})
+    doFetchBlogs( { commit }, { id: id, title: title, content: content, user_id: user_id, created_at: created_at, break_first: break_first, dinner: dinner }) {
+      commit('fetchBlogs', { id: id, title: title, content: content, user_id: user_id, created_at: created_at, break_first: break_first, dinner: dinner})
     },
-    doFetchEditBlogs( { commit }, { id: id, title: title, content: content, user_id: user_id, created_at: created_at }) {
-      commit('fetchEditBlogs', { id: id, title: title, content: content, user_id: user_id, created_at: created_at })
+    doFetchEditBlogs( { commit }, { id: id, title: title, content: content, user_id: user_id, created_at: created_at, break_first: break_first, dinner: dinner }) {
+      commit('fetchEditBlogs', { id: id, title: title, content: content, user_id: user_id, created_at: created_at, break_first: break_first, dinner: dinner })
     },
     doFetchDeleteBlogs( { commit }) {
       commit('fetchDeleteBlogs')
@@ -112,6 +118,9 @@ export default new Vuex.Store({
     },
     doFetchDeleteShit( { commit }, id) {
       commit('fetchDeleteShit', id)
+    },
+    doFetchAllDeleteShit( { commit }) {
+      commit('fetchAllDeleteShit')
     }
   },
   plugins: [

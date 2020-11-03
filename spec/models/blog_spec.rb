@@ -56,6 +56,11 @@ RSpec.describe Blog, type: :model do
         @blog.dinner = 'ここすけ'
         expect(@blog.dinner).to eq 0
       end
+
+      it 'dinnerが文字列の文字は0' do
+        @blog.dinner = ''
+        expect(@blog).to be_valid
+      end
     end
   end
 

@@ -25,5 +25,18 @@ RSpec.describe Shit, type: :model do
       expect(Shit.count).to eq 2
       expect(shit).to be_valid
     end
+
+    context '失敗の例' do
+      it '値がない場合' do
+        @shit.shit_time = ''
+        expect(@shit).to_not be_valid
+      end
+
+      it 'nilの場合'  do
+        @shit.shit_time = nil
+        expect(@shit).to_not be_valid
+      end
+    end
+
   end
 end

@@ -12,6 +12,8 @@
           <b-col offset="1" cols="10" class="blog-show-title text-info">タイトル: {{ blog.title}}</b-col>
 
           <b-col v-for="shit in shits" :key="shit.id" offset="1" cols="10" class="blog-show-title text-info">うんち時間: {{ shit.shit_time | moment('kk時mm分') }}</b-col>
+          <b-col v-if="blog.break_first" offset="1" cols="10" class="blog-show-title text-info">朝食: {{ blog.break_first}} g</b-col>
+          <b-col v-if="blog.dinner" offset="1" cols="10" class="blog-show-title text-info">夕食: {{ blog.dinner}} g</b-col>
         </b-row>
 
         <b-card

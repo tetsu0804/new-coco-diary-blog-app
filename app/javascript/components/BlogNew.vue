@@ -4,21 +4,47 @@
       <div class="text-center text-info h4 blog-new-form-top">ブログ作成</div>
       <b-form @submit="onBlogNewSubmit" class="blog-new-form">
 
-        <b-col cols="12">
-          <b-card>
-            <b-col cols="12">
-              うんち時間
-            </b-col>
-            <b-row>
-              <b-col cols="12" sm="6">
-                <b-form-select id="shit_new_hour" v-on:change="changeTime" v-model="houred" :options="hour_options" class="blog-new-form-top"></b-form-select>
+        <b-row>
+          <b-col cols="12">
+            <b-card>
+              <b-col cols="12">
+                うんち時間
               </b-col>
-              <b-col cols="12" sm="6">
-                <b-form-select id="shit_new_minute" v-on:change="changeTime" v-model="minuted" :options="minute_options" class="blog-new-form-top"></b-form-select>
+              <b-row>
+                <b-col cols="12" sm="6">
+                  <b-form-select id="shit_new_hour" v-on:change="changeTime" v-model="houred" :options="hour_options" class="blog-new-form-top"></b-form-select>
+                </b-col>
+                <b-col cols="12" sm="6">
+                  <b-form-select id="shit_new_minute" v-on:change="changeTime" v-model="minuted" :options="minute_options" class="blog-new-form-top"></b-form-select>
+                </b-col>
+              </b-row>
+            </b-card>
+          </b-col>
+        </b-row>
+
+        <b-row class="blog-new-form-top">
+          <b-col cols="6">
+            <b-card>
+              <b-col cols="12">
+                朝食
               </b-col>
-            </b-row>
-          </b-card>
-        </b-col>
+              <b-col cols="12">
+                <b-form-select id="blog_new_break_first"  v-model="break_first" :options="weight_options" class="blog-new-form-top"></b-form-select>
+              </b-col>
+            </b-card>
+          </b-col>
+
+          <b-col cols="6">
+            <b-card>
+              <b-col cols="12">
+                夕食
+              </b-col>
+              <b-col cols="12">
+                <b-form-select id="blog_new_dinner"  v-model="dinner" :options="weight_options" class="blog-new-form-top"></b-form-select>
+              </b-col>
+            </b-card>
+          </b-col>
+        </b-row>
 
         <b-form-group
           id="blog-new-input-group-1"
@@ -73,6 +99,7 @@
           </b-col>
         </b-row>
       </b-form>
+      <b-button id="new_blog_create" class="on-blog-new-btn blog-new-form-top" block variant="info" v-on:click="kari">仮</b-button>
     </b-col>
   </div>
 </template>
@@ -83,11 +110,15 @@ import { mapState } from 'vuex'
 
 const hour_options = []
 const minute_options = []
+const weight_options = []
 const hour_first_value = { value: null, text: 'hour'}
 const minute_first_value = { value: null, text: 'minute'}
+const weight_first_value = { value: null , text: 'グラム'}
+
   for(let i = 0; i < 60; i++) {
     const hour_num = { value: '', text: ''}
     const minute_num = { value: '', text: ''}
+    const weight_num = { value: '', test: ''}
 
     if(i < 24 ) {
       hour_num.value = i + 1
@@ -98,10 +129,15 @@ const minute_first_value = { value: null, text: 'minute'}
     minute_num.value = i + 1
     minute_num.text = i + 1
     minute_options.push(minute_num)
+
+    weight_num.value = i + 1
+    weight_num.text = i + 1
+    weight_options.push(weight_num)
   }
 
   hour_options.unshift(hour_first_value)
   minute_options.unshift(minute_first_value)
+  weight_options.unshift(weight_first_value)
 
   export default {
     data() {
@@ -115,7 +151,10 @@ const minute_first_value = { value: null, text: 'minute'}
         minuted: null,
         hour_options,
         minute_options,
-        time_now: new Date()
+        time_now: new Date(),
+        weight_options,
+        break_first: 0,
+        dinner: 0
       }
     },
     created() {
@@ -132,13 +171,16 @@ const minute_first_value = { value: null, text: 'minute'}
         reader.readAsDataURL(eventFile)
       },
       onBlogNewSubmit() {
-        axios.post('/api/v1/blog_new', { title: this.title, content: this.content, user_id: this.user_id, image: this.file, shit_time: this.time_now })
+        this.presentHourAndMinute()
+        axios.post('/api/v1/blog_new', { title: this.title, content: this.content, user_id: this.user_id, image: this.file, break_first: this.break_first, dinner: this.dinner, shit_time: this.time_now })
         .then(response => {
 
-          this.$store.dispatch('doFetchBlogs', { id: response.data.blog.id, title: response.data.blog.title, content: response.data.blog.content, user_id: response.data.blog.user_id, created_at: response.data.blog.created_at })
+          this.$store.dispatch('doFetchBlogs', { id: response.data.blog.id, title: response.data.blog.title, content: response.data.blog.content, user_id: response.data.blog.user_id, created_at: response.data.blog.created_at, break_first: response.data.blog.break_first, dinner: response.data.blog.dinner })
 
-          this.$store.dispatch('doFetchShits', {id: response.data.shit.id, shit_time: response.data.shit.shit_time, blog_id: response.data.shit.blog_id, created_at: response.data.shit.created_at })
-
+          if(response.data.shit) {
+            this.$store.dispatch('doFetchShits', {id: response.data.shit.id, shit_time: response.data.shit.shit_time, blog_id: response.data.shit.blog_id, created_at: response.data.shit.created_at })
+          }
+          
           this.$router.push({ name: 'Home'})
         })
       },
@@ -147,6 +189,13 @@ const minute_first_value = { value: null, text: 'minute'}
       },
       changeNumber(hour, minute) {
         return this.time_now.setHours(hour, minute).toDateString()
+      },
+      presentHourAndMinute() {
+        if(this.houred === null && this.minuted === null) {
+          return this.time_now = null
+        } else {
+          return this.time_now
+        }
       }
     }
   }

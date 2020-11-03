@@ -40,8 +40,8 @@ ActiveRecord::Schema.define(version: 2020_11_02_121210) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.string "blog_image"
-    t.integer "break_first"
-    t.integer "dinner"
+    t.integer "break_first", default: 0
+    t.integer "dinner", default: 0
     t.index ["user_id"], name: "index_blogs_on_user_id"
   end
 

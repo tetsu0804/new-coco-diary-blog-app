@@ -17,22 +17,47 @@
         </b-row>
 
         <b-form @submit="onBlogEditSubmit" class="blog-edit-form-top">
+          <b-row>
+            <b-col cols="12">
+              <b-card>
+                <b-col cols="12">
+                  うんち時間:
+                </b-col>
+                <b-row>
+                  <b-col cols="12" sm="6">
+                    <b-form-select id="edit_shit_hour" v-on:change="changeTimeEdit" v-model="houred" :options="edit_hour_options" class="blog-edit-form-top"></b-form-select>
+                  </b-col>
+                  <b-col cols="12" sm="6">
+                    <b-form-select id="edit_shit_minute" v-on:change="changeTimeEdit" v-model="minuted" :options="edit_minute_options" class="blog-edit-form-top"></b-form-select>
+                  </b-col>
+                </b-row>
+              </b-card>
+            </b-col>
+          </b-row>
 
-          <b-col cols="12">
-            <b-card>
-              <b-col cols="12">
-                うんち時間:
-              </b-col>
-              <b-row>
-                <b-col cols="12" sm="6">
-                  <b-form-select id="edit_shit_hour" v-on:change="changeTimeEdit" v-model="houred" :options="edit_hour_options" class="blog-edit-form-top"></b-form-select>
+          <b-row class="blog-edit-form-top">
+            <b-col cols="6">
+              <b-card>
+                <b-col cols="12">
+                  朝食
                 </b-col>
-                <b-col cols="12" sm="6">
-                  <b-form-select id="edit_shit_minute" v-on:change="changeTimeEdit" v-model="minuted" :options="edit_minute_options" class="blog-edit-form-top"></b-form-select>
+                <b-col cols="12">
+                  <b-form-select id="blog_edit_break_first"  v-model="blog.break_first" :options="edit_weight_options" class="blog-new-form-top"></b-form-select>
                 </b-col>
-              </b-row>
-            </b-card>
-          </b-col>
+              </b-card>
+            </b-col>
+
+            <b-col cols="6">
+              <b-card>
+                <b-col cols="12">
+                  夕食
+                </b-col>
+                <b-col cols="12">
+                  <b-form-select id="blog_edit_dinner"  v-model="blog.dinner" :options="edit_weight_options" class="blog-new-form-top"></b-form-select>
+                </b-col>
+              </b-card>
+            </b-col>
+          </b-row>
 
           <b-form-group
             id="blog-edit-input-group-1"
@@ -90,12 +115,16 @@ import axios from 'axios'
 
 const edit_hour_options = []
 const edit_minute_options = []
+const edit_weight_options = []
 const first_edit_hour_value = { value: null, text: 'hour'}
 const first_edit_minute_value = { value: null, text: 'minute'}
+const first_edit_weight_value = { value: null, text: 'グラム'}
 
   for(let i = 0; i < 60; i++) {
     let edit_hour = { value: '', text: '' }
     let edit_minute = { value: '', text: '' }
+    let edit_weight = { value: '', text: '' }
+
     if(i < 24) {
       edit_hour.value = i + 1
       edit_hour.text = i + 1
@@ -105,9 +134,14 @@ const first_edit_minute_value = { value: null, text: 'minute'}
     edit_minute.value = i + 1
     edit_minute.text = i + 1
     edit_minute_options.push(edit_minute)
+
+    edit_weight.value = i + 1
+    edit_weight.text = i + 1
+    edit_weight_options.push(edit_weight)
   }
   edit_hour_options.unshift(first_edit_hour_value)
   edit_minute_options.unshift(first_edit_minute_value)
+  edit_weight_options.unshift(first_edit_weight_value)
 
   export default {
     data() {
@@ -119,6 +153,7 @@ const first_edit_minute_value = { value: null, text: 'minute'}
         minuted: null,
         edit_hour_options,
         edit_minute_options,
+        edit_weight_options,
         edit_time_now: new Date()
       }
     },
@@ -136,9 +171,9 @@ const first_edit_minute_value = { value: null, text: 'minute'}
     methods: {
       onBlogEditSubmit() {
         return new Promise((resolve, _) => {
-          axios.patch(`/api/v1/blogs/${this.blog.id}`, { title: this.blog.title, content: this.blog.content, user_id: this.blog.user_id, shit_time: this.edit_time_now })
+          axios.patch(`/api/v1/blogs/${this.blog.id}`, { title: this.blog.title, content: this.blog.content, user_id: this.blog.user_id, break_first: this.blog.break_first, dinner: this.blog.dinner, shit_time: this.edit_time_now })
           .then(response => {
-            this.$store.dispatch('doFetchEditBlogs', { id: response.data.blog.id, title: response.data.blog.title, content: response.data.blog.content, user_id: response.data.blog.user_id, created_at: response.data.blog.created_at})
+            this.$store.dispatch('doFetchEditBlogs', { id: response.data.blog.id, title: response.data.blog.title, content: response.data.blog.content, user_id: response.data.blog.user_id, created_at: response.data.blog.created_at, break_first: response.data.blog.break_first, dinner: response.data.blog.dinner })
 
             this.$store.dispatch('doFetchShits', {id: response.data.shit.id, shit_time: response.data.shit.shit_time, blog_id: response.data.shit.blog_id, created_at: response.data.shit.created_at })
 
