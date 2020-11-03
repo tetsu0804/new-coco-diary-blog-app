@@ -43,8 +43,13 @@ class Api::V1::BlogsController < ApplicationController
     blog = Blog.find(params[:id])
 
     if blog.update_attributes(blog_params)
-      shit = Shit.create(shit_time: params[:shit_time], blog_id: blog.id)
-      render json: { blog: blog, shit: shit }
+      shit = Shit.new(shit_time: params[:shit_time], blog_id: blog.id)
+
+      if shit.save
+        render json: { blog: blog, shit: shit }
+      else
+        render json: { blog: blog }
+      end
     else
       render json: "編集失敗しました", status: :unauthorized
     end

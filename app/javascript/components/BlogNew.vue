@@ -99,7 +99,6 @@
           </b-col>
         </b-row>
       </b-form>
-      <b-button id="new_blog_create" class="on-blog-new-btn blog-new-form-top" block variant="info" v-on:click="kari">仮</b-button>
     </b-col>
   </div>
 </template>
@@ -180,7 +179,7 @@ const weight_first_value = { value: null , text: 'グラム'}
           if(response.data.shit) {
             this.$store.dispatch('doFetchShits', {id: response.data.shit.id, shit_time: response.data.shit.shit_time, blog_id: response.data.shit.blog_id, created_at: response.data.shit.created_at })
           }
-          
+
           this.$router.push({ name: 'Home'})
         })
       },

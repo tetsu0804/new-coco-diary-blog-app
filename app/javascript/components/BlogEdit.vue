@@ -170,12 +170,15 @@ const first_edit_weight_value = { value: null, text: 'グラム'}
     },
     methods: {
       onBlogEditSubmit() {
+        this.editPresentHourAndMinute()
         return new Promise((resolve, _) => {
           axios.patch(`/api/v1/blogs/${this.blog.id}`, { title: this.blog.title, content: this.blog.content, user_id: this.blog.user_id, break_first: this.blog.break_first, dinner: this.blog.dinner, shit_time: this.edit_time_now })
           .then(response => {
             this.$store.dispatch('doFetchEditBlogs', { id: response.data.blog.id, title: response.data.blog.title, content: response.data.blog.content, user_id: response.data.blog.user_id, created_at: response.data.blog.created_at, break_first: response.data.blog.break_first, dinner: response.data.blog.dinner })
 
-            this.$store.dispatch('doFetchShits', {id: response.data.shit.id, shit_time: response.data.shit.shit_time, blog_id: response.data.shit.blog_id, created_at: response.data.shit.created_at })
+            if(response.data.shit) {
+              this.$store.dispatch('doFetchShits', {id: response.data.shit.id, shit_time: response.data.shit.shit_time, blog_id: response.data.shit.blog_id, created_at: response.data.shit.created_at })
+            }
 
             this.$router.push({ name: 'BlogShow', params: { id: response.data.blog.id }})
           })
@@ -193,6 +196,13 @@ const first_edit_weight_value = { value: null, text: 'グラム'}
       },
       changeNumberEdit(hour, minute) {
         this.edit_time_now.setHours(hour, minute).toDateString()
+      },
+      editPresentHourAndMinute() {
+        if(this.houred === null && this.minuted === null) {
+          return this.edit_time_now = null
+        } else {
+          return this.edit_time_now
+        }
       }
     }
   }
