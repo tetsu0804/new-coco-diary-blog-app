@@ -35,7 +35,9 @@
             </b-col>
             <template v-if="blog.user_id === id">
               <b-col cols="12" sm="4" class="blog-show-btn">
-                <router-link :to="{ name: 'BlogEdit', params: { id: blog.id }}" class="btn btn-info blog-show-child-btn">編集</router-link>
+                <template v-if="blog">
+                  <router-link :to="{ name: 'BlogEdit', params: { id: blog.id }}" class="btn btn-info blog-show-child-btn">編集</router-link>
+                </template>
               </b-col>
               <b-col cols="12" sm="4" class="blog-show-btn-delete">
                 <b-button v-on:click="blogDelete" variant="danger" class="blog-delete">削除</b-button>
@@ -66,7 +68,7 @@ import { mapState } from 'vuex'
       first_name: state => state.first_name,
       email: state => state.email
     }),
-    mounted() {
+    created() {
       axios.get(`/api/v1/blogs/${this.$route.params.id}`)
       .then(response => {
         this.blog = response.data.blog

@@ -17,10 +17,11 @@ const router = new Router({
     { path: '/', component: Home, name: 'Home'},
     { path: '/signup', component: Signup, name: 'Signup' },
     { path: '/login', component: Login, name: 'Login' },
-    { path: '/user/:id', component: UserShow, name: 'UserShow' },
-    { path: '/user/:id/edit', component: UserEdit, name: 'UserEdit' },
+    { path: '/user/:id', component: UserShow, name: 'UserShow'},
+    { path: '/user/:id/edit', component: UserEdit, name: 'UserEdit'
+     },
     { path: '/blog_new', component: BlogNew, name: 'BlogNew' },
-    { path: '/blog/:id', component: BlogShow, name: 'BlogShow' },
+    { path: '/blog/:id', component: BlogShow, name: 'BlogShow'},
     { path: '/blog/:id/edit', component: BlogEdit, name: 'BlogEdit' }
   ]
 })
@@ -41,11 +42,11 @@ router.beforeEach((to, from, next) => {
     }
   }
 
-  if(to.name === 'Signup' && !cookie_trim_box.includes('signIn=true') ) {
+  if(to.name === 'Signup' && !cookie_trim_box.includes('signIn=true') && (store.state.signIn !== true)) {
     next()
-  } else if (to.name !== 'Login' && !cookie_trim_box.includes('signIn=true')) {
+  } else if (to.name !== 'Login' && !cookie_trim_box.includes('signIn=true') && (store.state.signIn !== true)) {
     next({ name: 'Login' })
-  } else if (to.name === 'Login' && cookie_trim_box.includes('signIn=true')) {
+  } else if (to.name === 'Login' && cookie_trim_box.includes('signIn=true') && (store.state.signIn === true)) {
     next({ name: 'Home' })
   } else if(to.name === 'UserEdit' && Number(to.params.id) !== store.state.id ){
     next({ name: 'Home' })
