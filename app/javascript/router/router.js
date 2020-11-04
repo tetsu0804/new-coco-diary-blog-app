@@ -42,11 +42,11 @@ router.beforeEach((to, from, next) => {
     }
   }
 
-  if(to.name === 'Signup' && !cookie_trim_box.includes('signIn=true') && (store.state.signIn !== true)) {
+  if(to.name === 'Signup' &&  (store.state.signIn !== true)) {
     next()
-  } else if (to.name !== 'Login' && !cookie_trim_box.includes('signIn=true') && (store.state.signIn !== true)) {
+  } else if (to.name !== 'Login' && (store.state.signIn !== true)) {
     next({ name: 'Login' })
-  } else if (to.name === 'Login' && cookie_trim_box.includes('signIn=true') && (store.state.signIn === true)) {
+  } else if (to.name === 'Login' && (store.state.signIn === true)) {
     next({ name: 'Home' })
   } else if(to.name === 'UserEdit' && Number(to.params.id) !== store.state.id ){
     next({ name: 'Home' })

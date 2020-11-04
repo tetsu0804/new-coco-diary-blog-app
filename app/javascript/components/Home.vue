@@ -74,7 +74,6 @@ import axios from 'axios'
       })
     },
     mounted() {
-  debugger
     },
     methods: {
       clickCallback(n) {

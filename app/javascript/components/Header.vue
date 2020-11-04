@@ -1,6 +1,6 @@
 <template>
   <div class="sticky-top">
-    <b-row v-if="(signIn === true) && (login_cookie_trim_box.includes('signIn=true'))">
+    <b-row v-if="signIn === true">
       <b-col cols="12">
         <b-navbar toggleable="lg" type="dark" variant="info">
           <router-link :to="{name: 'Home'}" class="text-white"> COCO Diary</router-link>
@@ -36,14 +36,6 @@ import { mapState } from 'vuex'
       first_name: state => state.first_name,
       signIn: state => state.signIn
     }),
-    created() {
-      if(document.cookie) {
-        this.loginDocumentCookies = document.cookie.split(';')
-        for(let i = 0; i < this.loginDocumentCookies.length; i++) {
-          this.login_cookie_trim_box.push(this.loginDocumentCookies[i].trim())
-        }
-      }
-    },
     methods: {
       userLogout() {
         this.$http.plan.delete('/api/v1/logout')

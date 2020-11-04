@@ -34,7 +34,7 @@
             required
           ></b-form-input>
         </b-form-group>
-        
+
         <b-row>
           <b-col cols="12" sm="6">
             <router-link class="btn btn-info login-login-btn login-form-top" :to="{name: 'Signup'}">ユーザー登録</router-link>
