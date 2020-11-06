@@ -66,12 +66,7 @@ import axios from 'axios'
       }
     },
     created() {
-      axios.get('/api/v1/blogs/thismounth')
-      .then(response => {
-        this.blogs = response.data.blogs
-        let currentPage = this.pageNumber * 9
-        this.prossingBlogs = this.blogs.slice(currentPage - 9, currentPage)
-      })
+      this.getMonth()
     },
     mounted() {
     },
@@ -80,6 +75,14 @@ import axios from 'axios'
         this.pageNumber = n
         let clickPage = this.pageNumber * 9
         this.prossingBlogs = this.blogs.slice(clickPage -9, clickPage)
+      },
+      getMonth() {
+        axios.get(`/api/v1/blogs_month/${this.$route.params.month}`)
+        .then(response => {
+          this.blogs = response.data.blogs
+          let currentPage = this.pageNumber * 9
+          this.prossingBlogs = this.blogs.slice(currentPage - 9, currentPage)
+        })
       }
     }
   }

@@ -9,6 +9,7 @@ import BlogEdit from '../components/BlogEdit.vue'
 import UserShow from '../components/UserShow.vue'
 import UserEdit from '../components/UserEdit.vue'
 import store from '../store/store'
+import BlogMonth from '../components/BlogMonth.vue'
 
 Vue.use(Router)
 
@@ -22,7 +23,8 @@ const router = new Router({
      },
     { path: '/blog_new', component: BlogNew, name: 'BlogNew' },
     { path: '/blog/:id', component: BlogShow, name: 'BlogShow'},
-    { path: '/blog/:id/edit', component: BlogEdit, name: 'BlogEdit' }
+    { path: '/blog/:id/edit', component: BlogEdit, name: 'BlogEdit' },
+    { path: '/blogs/:month', component: BlogMonth, name: 'BlogMonth' }
   ]
 })
 

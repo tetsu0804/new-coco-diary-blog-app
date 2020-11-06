@@ -1,7 +1,14 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
+# @user = User.create(first_name: '早坂', last_name: '隆', email: 'test@test.com', password: 'password', password_confirmation: 'password')
 #
-# Examples:
+# 2.times do |n|
+#   9.times do |t|
+#      Blog.create(title: "今日のここすけ#{t}", content: "かわいいなー#{t}", user_id: @user.id, break_first: 40, dinner: 40, created_at: "2020-#{11 + n}-#{1 + t} 21:06:43 +0900")
+#   end
+# end
 #
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+# 12.times do |n|
+#   9.times do |t|
+#     Blog.create(title: "本日のここすけ#{t}", content: "かわいいなー#{t}", user_id: @user.id,
+#     break_first: 40, dinner: 40, created_at: "2021-#{1 + n}-#{1 + t} 21:06:43 +0900")
+#   end
+# end

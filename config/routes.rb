@@ -16,6 +16,8 @@ Rails.application.routes.draw do
       delete '/users/:id', controller: :users, action: :destroy
       post '/blog_new', controller: :blogs, action: :create
       get '/blogs', controller: :blogs, action: :index
+      get '/blogs/thismounth', controller: :blogs, action: :thismounth
+      get '/blogs_month/:month', controller: :blogs, action: :month
       get '/blogs/:id', controller: :blogs, action: :show
       patch '/blogs/:id', controller: :blogs, action: :update
       delete '/blogs/:id', controller: :blogs, action: :destroy

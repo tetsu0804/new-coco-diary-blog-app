@@ -1,6 +1,26 @@
 class Api::V1::BlogsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
+  def thismounth
+    this_mounth_blogs = Blog.where(created_at: Time.now.all_month).order('created_at DESC')
+
+    if Rails.env.development?
+      this_mounth_blogs.each do |blog|
+        if blog.eyecatch.attached?
+          blog.blog_image = encode_base64(blog.eyecatch)
+        else
+          blog.blog_image = "/img/IMG_0883.JPG"
+        end
+      end
+    else
+      this_mounth_blogs.each do |blog|
+        blog.blog_image = "/img/IMG_0883.JPG"
+      end
+    end
+
+    render json: { blogs: this_mounth_blogs}
+  end
+
   def index
     blogs = Blog.all
 
@@ -75,6 +95,26 @@ class Api::V1::BlogsController < ApplicationController
     end
     blog.destroy
     head :no_content
+  end
+
+  def month
+    month = Time.zone.parse(params[:month])
+    this_mounth_blogs = Blog.where(created_at: month.all_month).order('created_at DESC')
+
+    if Rails.env.development?
+      this_mounth_blogs.each do |blog|
+        if blog.eyecatch.attached?
+          blog.blog_image = encode_base64(blog.eyecatch)
+        else
+          blog.blog_image = "/img/IMG_0883.JPG"
+        end
+      end
+    else
+      this_mounth_blogs.each do |blog|
+        blog.blog_image = "/img/IMG_0883.JPG"
+      end
+    end
+    render json: { blogs: this_mounth_blogs }
   end
 
   private

@@ -71,9 +71,10 @@ import { mapState } from 'vuex'
     created() {
       axios.get(`/api/v1/blogs/${this.$route.params.id}`)
       .then(response => {
-        this.blog = response.data.blog
-        this.user = response.data.user
-        this.shits= response.data.shits
+        let self = this
+        self.blog = response.data.blog
+        self.user = response.data.user
+        self.shits= response.data.shits
       })
     },
     methods: {

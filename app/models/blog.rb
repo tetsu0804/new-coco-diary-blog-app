@@ -7,6 +7,7 @@ class Blog < ApplicationRecord
   validates :content, presence: true, length: { maximum: 300 }
   validates :break_first, numericality: { only_integer: true }
   validates :dinner, numericality: { only_integer: true }
+
   def eyecatch=(image)
     if image.present?
 
@@ -25,5 +26,4 @@ class Blog < ApplicationRecord
       FileUtils.rm("#{Rails.root}/tmp/#{filename}")
     end
   end
-
 end

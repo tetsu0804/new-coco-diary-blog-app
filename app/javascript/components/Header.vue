@@ -9,6 +9,57 @@
 
           <b-collapse id="nav-collapse" is-nav>
             <!-- Right aligned nav items -->
+
+            <b-dropdown id="dropdown-grouped" text="年月別" variant="outline-light" class="m-2">
+              <b-dropdown-group v-if="by_year_and_month[0][0].length || by_year_and_month[0][10].length" id="dropdown-group-1" header="2020">
+                <b-dropdown-item-button v-on:click="changeMonth(by_year_and_month[0][10])" v-if="by_year_and_month[0][10].length">11月</b-dropdown-item-button>
+                <b-dropdown-item-button v-on:click="changeMonth(by_year_and_month[0][11])" v-if="by_year_and_month[0][11].length">12月</b-dropdown-item-button>
+                <b-dropdown-divider></b-dropdown-divider>
+              </b-dropdown-group>
+
+              <b-dropdown-group v-if="by_year_and_month[1].length" id="dropdown-group-2" header="2021">
+                <b-dropdown-item-button v-on:click="changeMonth(by_year_and_month[1][0])" v-if="by_year_and_month[1][0].length">1月</b-dropdown-item-button>
+
+                <b-dropdown-item-button v-on:click="changeMonth(by_year_and_month[1][1])" v-if="by_year_and_month[1][1].length">2月</b-dropdown-item-button>
+
+                <b-dropdown-item-button v-on:click="changeMonth(by_year_and_month[1][2])" v-if="by_year_and_month[1][2].length">3月</b-dropdown-item-button>
+
+                <b-dropdown-item-button v-on:click="changeMonth(by_year_and_month[1][3])" v-if="by_year_and_month[1][3].length">4月</b-dropdown-item-button>
+
+                <b-dropdown-item-button v-on:click="changeMonth(by_year_and_month[1][4])" v-if="by_year_and_month[1][4].length">5月</b-dropdown-item-button>
+
+                <b-dropdown-item-button v-on:click="changeMonth(by_year_and_month[1][5])" v-if="by_year_and_month[1][5].length">6月</b-dropdown-item-button>
+
+                <b-dropdown-item-button v-on:click="changeMonth(by_year_and_month[1][6])" v-if="by_year_and_month[1][6].length">7月</b-dropdown-item-button>
+
+                <b-dropdown-item-button v-on:click="changeMonth(by_year_and_month[1][7])" v-if="by_year_and_month[1][7].length">8月</b-dropdown-item-button>
+
+                <b-dropdown-item-button v-on:click="changeMonth(by_year_and_month[1][8])" v-if="by_year_and_month[1][8].length">9月</b-dropdown-item-button>
+
+                <b-dropdown-item-button v-on:click="changeMonth(by_year_and_month[1][9])" v-if="by_year_and_month[1][9].length">10月</b-dropdown-item-button>
+
+                <b-dropdown-item-button v-on:click="changeMonth(by_year_and_month[1][10])" v-if="by_year_and_month[1][10].length">11月</b-dropdown-item-button>
+
+                <b-dropdown-item-button v-on:click="changeMonth(by_year_and_month[1][11])" v-if="by_year_and_month[1][11].length">12月</b-dropdown-item-button>
+                <b-dropdown-divider></b-dropdown-divider>
+              </b-dropdown-group>
+
+              <b-dropdown-group v-if="by_year_and_month[2].length" id="dropdown-group-2" header="2022">
+                <b-dropdown-item-button v-on:click="changeMonth(by_year_and_month[2][0])" v-if="by_year_and_month[2][0].length">1月</b-dropdown-item-button>
+                <b-dropdown-divider></b-dropdown-divider>
+              </b-dropdown-group>
+
+              <b-dropdown-group v-if="by_year_and_month[3].length" id="dropdown-group-2" header="2023">
+                <b-dropdown-item-button v-on:click="changeMonth(by_year_and_month[1][0])" v-if="by_year_and_month[2][0].length">1月</b-dropdown-item-button>
+                <b-dropdown-divider></b-dropdown-divider>
+              </b-dropdown-group>
+
+              <b-dropdown-group v-if="by_year_and_month[3].length" id="dropdown-group-2" header="2024">
+                <b-dropdown-item-button v-on:click="changeMonth(by_year_and_month[1][0])" v-if="by_year_and_month[2][0].length">1月</b-dropdown-item-button>
+                <b-dropdown-divider></b-dropdown-divider>
+              </b-dropdown-group>
+            </b-dropdown>
+
             <b-navbar-nav class="ml-auto">
               <b-nav-item class="text-white" v-on:click="userLogout">ログアウト</b-nav-item>
               <router-link class="blog-new header-user-name" :to="{ name: 'BlogNew' }">ブログ作成</router-link>
@@ -21,13 +72,25 @@
 </template>
 
 <script>
+import axios from 'axios'
 import { mapState } from 'vuex'
+
+let by_year_and_month = []
+for(let year_five = 0; year_five < 5; year_five++) {
+  let year_num = []
+  by_year_and_month.push(year_num)
+  for(let month_twelve = 0; month_twelve < 12; month_twelve++) {
+    let month_num = []
+    by_year_and_month[year_five].push(month_num)
+  }
+}
 
   export default {
     data() {
       return {
         loginDocumentCookies: '',
-        login_cookie_trim_box: []
+        login_cookie_trim_box: [],
+        by_year_and_month
       }
     },
     computed: mapState({
@@ -36,6 +99,11 @@ import { mapState } from 'vuex'
       first_name: state => state.first_name,
       signIn: state => state.signIn
     }),
+    created() {
+      this.getYear()
+    },
+    mounted(){
+    },
     methods: {
       userLogout() {
         this.$http.plan.delete('/api/v1/logout')
@@ -49,7 +117,171 @@ import { mapState } from 'vuex'
           document.cookie = "signIn=; max-age=0"
           this.$router.push({ name: 'Login' })
         })
+      },
+      getYear() {
+        axios.get('/api/v1/blogs')
+        .then(response => {
+          let blogs = response.data.blogs
+          this.sortingYear(blogs)
+        })
+      },
+      sortingYear(blogs) {
+        for(let i = 0; i < blogs.length; i++) {
+          let date = new Date(blogs[i].created_at)
+          this.forYear(date, blogs[i])
+        }
+      },
+      forYear(date, blog) {
+       if(date.getFullYear() === 2020) {
+         this.forTwentyMonth(date, blog)
+       } else if(date.getFullYear() === 2021) {
+         this.forTwentyOneMonth(date, blog)
+       } else if(date.getFullYear() === 2022) {
+         this.forTwentyTwoMonth(date, blog)
+       } else if(date.getFullYear() === 2023) {
+         this.forTwentyThreeMonth(date, blog)
+       } else {
+         this.forTewntyFourMonth(date, blog)
+       }
+     },
+     forTwentyMonth(date, blog) {
+      if(date.getMonth() === 0) {
+        this.by_year_and_month[0][0].push(blog)
+      } else if(date.getMonth() === 1) {
+        this.by_year_and_month[0][1].push(blog)
+      } else if(date.getMonth() === 2) {
+        this.by_year_and_month[0][2].push(blog)
+      } else if(date.getMonth() === 3) {
+        this.by_year_and_month[0][3].push(blog)
+      } else if(date.getMonth() === 4) {
+        this.by_year_and_month[0][4].push(blog)
+      } else if(date.getMonth() === 5) {
+        this.by_year_and_month[0][5].push(blog)
+      } else if(date.getMonth() === 6) {
+        this.by_year_and_month[0][6].push(blog)
+      } else if(date.getMonth() === 7) {
+        this.by_year_and_month[0][7].push(blog)
+      } else if(date.getMonth() === 8) {
+        this.by_year_and_month[0][8].push(blog)
+      } else if(date.getMonth() === 9) {
+        this.by_year_and_month[0][9].push(blog)
+      } else if(date.getMonth() === 10) {
+        this.by_year_and_month[0][10].push(blog)
+      } else {
+        this.by_year_and_month[0][11].push(blog)
       }
+     },
+     forTwentyOneMonth(date, blog) {
+       if(date.getMonth() === 0) {
+         this.by_year_and_month[1][0].push(blog)
+       } else if(date.getMonth() === 1) {
+         this.by_year_and_month[1][1].push(blog)
+       } else if(date.getMonth() === 2) {
+         this.by_year_and_month[1][2].push(blog)
+       } else if(date.getMonth() === 3) {
+         this.by_year_and_month[1][3].push(blog)
+       } else if(date.getMonth() === 4) {
+         this.by_year_and_month[1][4].push(blog)
+       } else if(date.getMonth() === 5) {
+         this.by_year_and_month[1][5].push(blog)
+       } else if(date.getMonth() === 6) {
+         this.by_year_and_month[1][6].push(blog)
+       } else if(date.getMonth() === 7) {
+         this.by_year_and_month[1][7].push(blog)
+       } else if(date.getMonth() === 8) {
+         this.by_year_and_month[1][8].push(blog)
+       } else if(date.getMonth() === 9) {
+         this.by_year_and_month[1][9].push(blog)
+       } else if(date.getMonth() === 10) {
+         this.by_year_and_month[1][10].push(blog)
+       } else {
+         this.by_year_and_month[1][11].push(blog)
+       }
+     },
+     forTwentyTwoMonth(date, blog) {
+       if(date.getMonth() === 0) {
+         this.by_year_and_month[2][0].push(blog)
+       } else if(date.getMonth() === 1) {
+         this.by_year_and_month[2][1].push(blog)
+       } else if(date.getMonth() === 2) {
+         this.by_year_and_month[2][2].push(blog)
+       } else if(date.getMonth() === 3) {
+         this.by_year_and_month[2][3].push(blog)
+       } else if(date.getMonth() === 4) {
+         this.by_year_and_month[2][4].push(blog)
+       } else if(date.getMonth() === 5) {
+         this.by_year_and_month[2][5].push(blog)
+       } else if(date.getMonth() === 6) {
+         this.by_year_and_month[2][6].push(blog)
+       } else if(date.getMonth() === 7) {
+         this.by_year_and_month[2][7].push(blog)
+       } else if(date.getMonth() === 8) {
+         this.by_year_and_month[2][8].push(blog)
+       } else if(date.getMonth() === 9) {
+         this.by_year_and_month[2][9].push(blog)
+       } else if(date.getMonth() === 10) {
+         this.by_year_and_month[2][10].push(blog)
+       } else {
+         this.by_year_and_month[2][11].push(blog)
+       }
+     },
+     forTwentyThreeMonth(date, blog) {
+       if(date.getMonth() === 0) {
+         this.by_year_and_month[3][0].push(blog)
+       } else if(date.getMonth() === 1) {
+         this.by_year_and_month[3][1].push(blog)
+       } else if(date.getMonth() === 2) {
+         this.by_year_and_month[3][2].push(blog)
+       } else if(date.getMonth() === 3) {
+         this.by_year_and_month[3][3].push(blog)
+       } else if(date.getMonth() === 4) {
+         this.by_year_and_month[3][4].push(blog)
+       } else if(date.getMonth() === 5) {
+         this.by_year_and_month[3][5].push(blog)
+       } else if(date.getMonth() === 6) {
+         this.by_year_and_month[3][6].push(blog)
+       } else if(date.getMonth() === 7) {
+         this.by_year_and_month[3][7].push(blog)
+       } else if(date.getMonth() === 8) {
+         this.by_year_and_month[3][8].push(blog)
+       } else if(date.getMonth() === 9) {
+         this.by_year_and_month[3][9].push(blog)
+       } else if(date.getMonth() === 10) {
+         this.by_year_and_month[3][10].push(blog)
+       } else {
+         this.by_year_and_month[3][11].push(blog)
+       }
+     },
+     forTewntyFourMonth(date, blog) {
+       if(date.getMonth() === 0) {
+         this.by_year_and_month[4][0].push(blog)
+       } else if(date.getMonth() === 1) {
+         this.by_year_and_month[4][1].push(blog)
+       } else if(date.getMonth() === 2) {
+         this.by_year_and_month[4][2].push(blog)
+       } else if(date.getMonth() === 3) {
+         this.by_year_and_month[4][3].push(blog)
+       } else if(date.getMonth() === 4) {
+         this.by_year_and_month[4][4].push(blog)
+       } else if(date.getMonth() === 5) {
+         this.by_year_and_month[4][5].push(blog)
+       } else if(date.getMonth() === 6) {
+         this.by_year_and_month[4][6].push(blog)
+       } else if(date.getMonth() === 7) {
+         this.by_year_and_month[4][7].push(blog)
+       } else if(date.getMonth() === 8) {
+         this.by_year_and_month[4][8].push(blog)
+       } else if(date.getMonth() === 9) {
+         this.by_year_and_month[4][9].push(blog)
+       } else if(date.getMonth() === 10) {
+         this.by_year_and_month[4][10].push(blog)
+       } else {
+         this.by_year_and_month[4][11].push(blog)
+       }
+      },
+     changeMonth(blogs) {
+      this.$router.push({ name: 'BlogMonth', params: { month: blogs[0].created_at }})
+     }
     }
   }
 </script>
