@@ -60,6 +60,16 @@
               </b-dropdown-group>
             </b-dropdown>
 
+            <b-button v-b-modal.modal-1 variant="outline-light" >ステータス</b-button>
+
+            <b-modal id="modal-1" title="今月のステータス">
+              <GChart
+                type="PieChart"
+                :data="chartData"
+                :options="chartOptions"
+              />
+            </b-modal>
+
             <b-navbar-nav class="ml-auto">
               <b-nav-item class="text-white" v-on:click="userLogout">ログアウト</b-nav-item>
               <router-link class="blog-new header-user-name" :to="{ name: 'BlogNew' }">ブログ作成</router-link>
@@ -74,6 +84,7 @@
 <script>
 import axios from 'axios'
 import { mapState } from 'vuex'
+import { GChart } from 'vue-google-charts'
 
 let by_year_and_month = []
 for(let year_five = 0; year_five < 5; year_five++) {
@@ -86,11 +97,24 @@ for(let year_five = 0; year_five < 5; year_five++) {
 }
 
   export default {
+    components: {
+      GChart
+    },
     data() {
       return {
         loginDocumentCookies: '',
         login_cookie_trim_box: [],
-        by_year_and_month
+        by_year_and_month,
+        chartData: [
+          ['氏名', '今月のステータス'],
+        ],
+        chartOptions: {
+          chart: {
+            title: 'Company Performance',
+            subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+          }
+        },
+        thisMonthBlogs: []
       }
     },
     computed: mapState({
@@ -101,8 +125,10 @@ for(let year_five = 0; year_five < 5; year_five++) {
     }),
     created() {
       this.getYear()
+      this.chartThisBlogs()
     },
     mounted(){
+
     },
     methods: {
       userLogout() {
@@ -281,6 +307,41 @@ for(let year_five = 0; year_five < 5; year_five++) {
       },
      changeMonth(blogs) {
       this.$router.push({ name: 'BlogMonth', params: { month: blogs[0].created_at }})
+     },
+     chartThisBlogs() {
+       axios.get('/api/v1/blogs/thismounth').then(response => {
+         let this_blogs = []
+         let this_users = []
+         this_blogs = response.data.blogs
+         this_users = response.data.users
+         this.getThisMonthBlog(this_users, this_blogs)
+         this.chartSetting(this.thisMonthBlogs)
+       })
+     },
+     getThisMonthBlog(users, blogs) {
+       for(let i = 0; i < users.length; i++) {
+         let user_blogs_count = 0
+
+         for(let n = 0; n < blogs.length; n++) {
+           if(users[i].id === blogs[n].user_id) {
+             user_blogs_count++
+           }
+         }
+         this.sortingBlogs(user_blogs_count, users[i])
+       }
+     },
+     sortingBlogs(count, user) {
+       let sorting_user = {id: user.id, first_name: user.first_name, count: count}
+       this.thisMonthBlogs.push(sorting_user)
+     },
+     chartSetting(thisMonthBlogs) {
+
+       for(let n = 0; thisMonthBlogs.length; n++ ) {
+         let chart_set = []
+         chart_set.push(thisMonthBlogs[n].first_name)
+         chart_set.push(thisMonthBlogs[n].count)
+         this.chartData.push(chart_set)
+       }
      }
     }
   }

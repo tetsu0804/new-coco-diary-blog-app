@@ -3,6 +3,7 @@ class Api::V1::BlogsController < ApplicationController
 
   def thismounth
     this_mounth_blogs = Blog.where(created_at: Time.now.all_month).order('created_at DESC')
+    users = User.all
 
     if Rails.env.development?
       this_mounth_blogs.each do |blog|
@@ -18,7 +19,7 @@ class Api::V1::BlogsController < ApplicationController
       end
     end
 
-    render json: { blogs: this_mounth_blogs}
+    render json: { blogs: this_mounth_blogs, users: users}
   end
 
   def index

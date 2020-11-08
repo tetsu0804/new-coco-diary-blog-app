@@ -44,7 +44,9 @@
             >
           </paginate>
         </b-col>
+
       </b-col>
+
     </b-row>
   </div>
 </template>
@@ -57,6 +59,7 @@ import axios from 'axios'
       return {
         prossingBlogs: [],
         blogs: [],
+        users: [],
         pageNumber: 1
       }
     },
@@ -69,11 +72,13 @@ import axios from 'axios'
       axios.get('/api/v1/blogs/thismounth')
       .then(response => {
         this.blogs = response.data.blogs
+        this.users = response.data.users
         let currentPage = this.pageNumber * 9
         this.prossingBlogs = this.blogs.slice(currentPage - 9, currentPage)
       })
     },
     mounted() {
+
     },
     methods: {
       clickCallback(n) {
