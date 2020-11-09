@@ -60,14 +60,20 @@
               </b-dropdown-group>
             </b-dropdown>
 
-            <b-button v-b-modal.modal-1 variant="outline-light" >ステータス</b-button>
+            <b-button id="show-btn" variant="outline-light" @click="$bvModal.show('bv-modal-example')">ステータス</b-button>
 
-            <b-modal id="modal-1" title="今月のステータス">
-              <GChart
-                type="PieChart"
-                :data="chartData"
-                :options="chartOptions"
-              />
+            <b-modal ref="my-modal" id="bv-modal-example" hide-footer>
+              <template #modal-title>
+                今月のステータス
+              </template>
+              <div class="d-block text-center">
+                <GChart
+                  type="PieChart"
+                  :data="chartData"
+                  :options="chartOptions"
+                />
+              </div>
+              <b-button class="mt-3" block @click="goToStatus">詳細</b-button>
             </b-modal>
 
             <b-navbar-nav class="ml-auto">
@@ -112,7 +118,8 @@ for(let year_five = 0; year_five < 5; year_five++) {
           chart: {
             title: 'Company Performance',
             subtitle: 'Sales, Expenses, and Profit: 2014-2017',
-          }
+          },
+          chartArea:{left: 120, top:0,width:'100%', height:'100%'}
         },
         thisMonthBlogs: []
       }
@@ -342,6 +349,10 @@ for(let year_five = 0; year_five < 5; year_five++) {
          chart_set.push(thisMonthBlogs[n].count)
          this.chartData.push(chart_set)
        }
+     },
+     goToStatus() {
+      this.$refs['my-modal'].hide()
+      this.$router.push({ name: 'BlogStatus' })
      }
     }
   }

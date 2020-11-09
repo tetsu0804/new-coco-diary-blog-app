@@ -24,7 +24,7 @@ class Api::V1::BlogsController < ApplicationController
 
   def index
     blogs = Blog.all
-
+    users = User.all
     if Rails.env.development?
       blogs.each do |blog|
         if blog.eyecatch.attached?
@@ -38,8 +38,7 @@ class Api::V1::BlogsController < ApplicationController
         blog.blog_image = "/img/IMG_0883.JPG"
       end
     end
-
-    render json: { blogs: blogs }
+    render json: { blogs: blogs , users: users}
   end
 
   def create
