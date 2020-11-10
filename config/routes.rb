@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       get '/blogs/:id', controller: :blogs, action: :show
       patch '/blogs/:id', controller: :blogs, action: :update
       delete '/blogs/:id', controller: :blogs, action: :destroy
+      get '/shits_all_count', controller: :shits, action: :all_count
       delete '/shits/:id', controller: :shits, action: :destroy
     end
   end
