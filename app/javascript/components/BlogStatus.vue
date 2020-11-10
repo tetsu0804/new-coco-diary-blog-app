@@ -2,6 +2,7 @@
   <div>
     <BlogAllStatus></BlogAllStatus>
     <BlogBreakFirst></BlogBreakFirst>
+    <BlogDinner></BlogDinner>
     <ShitsAllCount></ShitsAllCount>
   </div>
 </template>
@@ -10,12 +11,14 @@
   import BlogAllStatus from './BlogAllStatus.vue'
   import ShitsAllCount from './ShitsAllCount.vue'
   import BlogBreakFirst from './BlogBreakFirst.vue'
+  import BlogDinner from './BlogDinner.vue'
 
   export default {
     components: {
       BlogAllStatus,
       ShitsAllCount,
-      BlogBreakFirst
+      BlogBreakFirst,
+      BlogDinner
     }
   }
 </script>

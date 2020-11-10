@@ -60,7 +60,9 @@
               </b-dropdown-group>
             </b-dropdown>
 
-            <b-button id="show-btn" variant="outline-light" @click="$bvModal.show('bv-modal-example')">ステータス</b-button>
+            <div>
+              <b-button id="show-btn" variant="outline-light" class="left-btn" @click="$bvModal.show('bv-modal-example')">ステータス</b-button>
+            </div>
 
             <b-modal ref="my-modal" id="bv-modal-example" hide-footer>
               <template #modal-title>
@@ -77,8 +79,8 @@
             </b-modal>
 
             <b-navbar-nav class="ml-auto">
-              <b-nav-item class="text-white" v-on:click="userLogout">ログアウト</b-nav-item>
-              <router-link class="blog-new header-user-name" :to="{ name: 'BlogNew' }">ブログ作成</router-link>
+              <b-nav-item class="text-white left-btn" v-on:click="userLogout">ログアウト</b-nav-item>
+              <router-link class="blog-new header-user-name left-btn" :to="{ name: 'BlogNew' }">ブログ作成</router-link>
             </b-navbar-nav>
           </b-collapse>
         </b-navbar>
@@ -363,5 +365,11 @@ for(let year_five = 0; year_five < 5; year_five++) {
     margin-top: 9px;
     margin-left: 15px;
     color:  white;
+  }
+  .left-btn {
+    margin-left: 8px;
+  }
+  .right-btn {
+    margin-left: 8px;
   }
 </style>

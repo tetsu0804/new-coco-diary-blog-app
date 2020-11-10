@@ -117,13 +117,19 @@ class Api::V1::BlogsController < ApplicationController
     render json: { blogs: this_mounth_blogs }
   end
 
-  def eat_gram
-    braek_first_ary = []
+  def break_first
     eat_gram = Blog.eat_select_gram
     break_firsts = eat_gram[:break_first]
-    dinners = eat_gram[:dinner]
+
     break_first_array_in_hash = break_first_take(break_firsts)
     render json: { break_firsts: break_first_array_in_hash}
+  end
+
+  def dinner
+    eat_gram = Blog.eat_select_gram
+    dinners = eat_gram[:dinner]
+    dinner_array_in_hash = dinner_take(dinners)
+    render json: { dinners: dinner_array_in_hash}
   end
 
   private
@@ -162,10 +168,22 @@ class Api::V1::BlogsController < ApplicationController
     end
 
     def dinner_take(dinners)
-      dinner_array = []
+      dinners_array = []
+      dinner_ary = []
       dinners.each do |dinner|
-        dinner_array.push(dinner.dinner)
+        dinners_array.push(dinner.dinner)
       end
-      return dinner_array
+      dinnders_array_in_hash = dinners_array.group_by(&:itself).map{ |key, value| {key.to_s => value.count} }.to_a
+
+      dinnders_array_in_hash.each do |dinner|
+        dinner.each do |k, v|
+          dinner_hash = {}
+          dinner_hash[k] = v
+          dinner_ary.push(dinner_hash)
+        end
+      end
+
+      return dinner_ary
     end
+
 end

@@ -3,11 +3,11 @@
     <b-row>
       <b-col cols="12">
         <b-row>
-          <b-col cols="12" offset-sm="2" sm="8" class="blog-braek-first-top">
+          <b-col cols="12" offset-sm="2" sm="8" class="blog-dinner-top">
             <b-card-group deck>
               <b-card
                 border-variant="info"
-                header="朝食のグラム数のパーセンテージ (グラム)"
+                header="夕食のグラム数のパーセンテージ (グラム)"
                 header-bg-variant="white"
                 header-text-variant="info"
                 align="center"
@@ -38,7 +38,7 @@ import { GChart} from 'vue-google-charts'
     },
     data() {
       return {
-        break_firsts: [],
+        dinners: [],
         chartData: [
           ['氏名', '全投稿の投稿者比率'],
         ],
@@ -57,21 +57,21 @@ import { GChart} from 'vue-google-charts'
     },
     methods: {
       getEatGram() {
-        axios.get('/api/v1/blog_break_first')
+        axios.get('/api/v1/blog_dinner')
         .then(response => {
           let self = this
-          self.break_firsts = response.data.break_firsts
-          this.getBreak_first_count(self.break_firsts)
+          self.dinners = response.data.dinners
+          this.get_dinner_count(self.dinners)
           this.chartSetting(this.thisBlogEats)
         })
       },
-      getBreak_first_count(break_firsts) {
-        for(let i = 0; i < break_firsts.length; i++) {
-          let break_first_object = { gram: null, count: null }
-          for(let key in break_firsts[i]) {
-            break_first_object.gram = key
-            break_first_object.count = break_firsts[i][key]
-            this.thisBlogEats.push(break_first_object)
+      get_dinner_count(dinners) {
+        for(let i = 0; i < dinners.length; i++) {
+          let dinners_object = { gram: null, count: null }
+          for(let key in dinners[i]) {
+            dinners_object.gram = key
+            dinners_object.count = dinners[i][key]
+            this.thisBlogEats.push(dinners_object)
           }
         }
       },
@@ -89,7 +89,7 @@ import { GChart} from 'vue-google-charts'
 </script>
 
 <style scoped>
-  .blog-braek-first-top {
+  .blog-dinner-top {
     margin-top: 30px;
   }
 </style>
