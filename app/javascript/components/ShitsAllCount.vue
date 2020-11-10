@@ -71,5 +71,6 @@ import axios from 'axios'
 <style scoped>
   .blog-status-shit-table-top {
     margin-top: 30px;
+    margin-bottom: 100px;
   }
 </style>

@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       get '/users/:id', controller: :users, action: :show
       patch '/users/:id', controller: :users, action: :update
       delete '/users/:id', controller: :users, action: :destroy
+      get '/blog_eat_gram', controller: :blogs, action: :eat_gram
       post '/blog_new', controller: :blogs, action: :create
       get '/blogs', controller: :blogs, action: :index
       get '/blogs/thismounth', controller: :blogs, action: :thismounth

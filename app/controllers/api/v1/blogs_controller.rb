@@ -117,6 +117,15 @@ class Api::V1::BlogsController < ApplicationController
     render json: { blogs: this_mounth_blogs }
   end
 
+  def eat_gram
+    braek_first_ary = []
+    eat_gram = Blog.eat_select_gram
+    break_firsts = eat_gram[:break_first]
+    dinners = eat_gram[:dinner]
+    break_first_array_in_hash = break_first_take(break_firsts)
+    render json: { break_firsts: break_first_array_in_hash}
+  end
+
   private
 
     def blog_params
@@ -131,5 +140,32 @@ class Api::V1::BlogsController < ApplicationController
       image = Base64.encode64(image_file.download)
       blob = ActiveStorage::Blob.find(image_file[:id])
       "data:#{blob[:content_type]};base64,#{image}"
+    end
+
+    def break_first_take(break_firsts)
+      break_first_array = []
+      braek_first_ary = []
+      break_firsts.each do |break_first|
+        break_first_array.push(break_first.break_first)
+      end
+      break_first_array_in_hash = break_first_array.group_by(&:itself).map{ |key, value| {key.to_s => value.count} }.to_a
+
+      break_first_array_in_hash.each do |break_first|
+        break_first.each do |k, v|
+          break_first_hash = {}
+          break_first_hash[k] = v
+          braek_first_ary.push(break_first_hash)
+        end
+      end
+
+      return braek_first_ary
+    end
+
+    def dinner_take(dinners)
+      dinner_array = []
+      dinners.each do |dinner|
+        dinner_array.push(dinner.dinner)
+      end
+      return dinner_array
     end
 end

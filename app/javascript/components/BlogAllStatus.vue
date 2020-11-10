@@ -47,12 +47,12 @@
         blogs: [],
         users: [],
         chartData: [
-          ['氏名', '今月のステータス'],
+          ['氏名', '全投稿の投稿者比率'],
         ],
         chartOptions: {
           chart: {
-            title: 'Company Performance',
-            subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+            title: '全投稿の投稿者比率',
+            subtitle: '投稿数パーセンテージ',
           },
           chartArea:{top:0, left: '25%', width:'100%', height:'100%'}
         },
@@ -104,9 +104,9 @@
 
 <style scoped>
   .blog-status-title {
-    margin-top: 15px;
+    margin-top: 50px;
   }
   .blog-status-top {
-    margin-top: 100px;
+    margin-top: 50px;
   }
 </style>

@@ -26,4 +26,13 @@ class Blog < ApplicationRecord
       FileUtils.rm("#{Rails.root}/tmp/#{filename}")
     end
   end
+
+  def self.eat_select_gram
+    break_first = Blog.select('break_first')
+    dinner = Blog.select('dinner')
+
+    eat_gram = { break_first: break_first, dinner: dinner}
+    return eat_gram
+  end
+
 end
