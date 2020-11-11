@@ -63,6 +63,8 @@ import { GChart} from 'vue-google-charts'
           self.dinners = response.data.dinners
           this.get_dinner_count(self.dinners)
           this.chartSetting(this.thisBlogEats)
+        }).catch(error => {
+        
         })
       },
       get_dinner_count(dinners) {

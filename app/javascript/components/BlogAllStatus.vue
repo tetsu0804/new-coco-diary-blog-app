@@ -70,6 +70,8 @@
           this.blogs = response.data.blogs
           this.getThisMonthBlog(this.users, this.blogs)
           this.chartSetting(this.thisMonthBlogs)
+        }).catch(error => {
+        
         })
 
       },

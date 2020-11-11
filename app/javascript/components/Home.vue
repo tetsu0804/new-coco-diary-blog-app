@@ -1,7 +1,9 @@
 <template>
   <div>
     <b-row>
+
       <b-col cols="12" offset-sm="1" sm="10">
+        <b-alert show variant="danger" v-if="errorMsg">{{ errorMsg }}</b-alert>
         <b-card-group deck :key="i" class="home-top">
           <div v-for="blog in prossingBlogs" :key="blog.id">
             <b-card
@@ -60,7 +62,8 @@ import axios from 'axios'
         prossingBlogs: [],
         blogs: [],
         users: [],
-        pageNumber: 1
+        pageNumber: 1,
+        errorMsg: ''
       }
     },
     computed: {
@@ -75,6 +78,9 @@ import axios from 'axios'
         this.users = response.data.users
         let currentPage = this.pageNumber * 9
         this.prossingBlogs = this.blogs.slice(currentPage - 9, currentPage)
+      }).catch(error => {
+        let self = this
+        self.errorMsg = (error.response && error.response.data && error.response.data.config) || "エラーが発生しました"
       })
     },
     mounted() {

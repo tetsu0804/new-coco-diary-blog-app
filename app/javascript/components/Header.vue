@@ -2,6 +2,7 @@
   <div class="sticky-top">
     <b-row v-if="signIn === true">
       <b-col cols="12">
+        <b-alert show variant="danger" v-if="errorMsg">{{ errorMsg }}</b-alert>
         <b-navbar toggleable="lg" type="dark" variant="info">
           <router-link :to="{name: 'Home'}" class="text-white"> COCO Diary</router-link>
           <router-link v-if="last_name" :to="{ name: 'UserShow', params: {id: id}}" class="text-white" style="margin-left: 15px;">{{ last_name + first_name + 'さん'}}</router-link>
@@ -123,7 +124,8 @@ for(let year_five = 0; year_five < 5; year_five++) {
           },
           chartArea:{left: 120, top:0,width:'100%', height:'100%'}
         },
-        thisMonthBlogs: []
+        thisMonthBlogs: [],
+        errorMsg: ''
       }
     },
     computed: mapState({
@@ -151,6 +153,8 @@ for(let year_five = 0; year_five < 5; year_five++) {
           document.cookie = "cookie=; max-age=0"
           document.cookie = "signIn=; max-age=0"
           this.$router.push({ name: 'Login' })
+        }).catch(error => {
+          this.errorMsg = "エラーが発生しました"
         })
       },
       getYear() {
@@ -158,6 +162,8 @@ for(let year_five = 0; year_five < 5; year_five++) {
         .then(response => {
           let blogs = response.data.blogs
           this.sortingYear(blogs)
+        }).catch(error => {
+
         })
       },
       sortingYear(blogs) {
@@ -325,6 +331,8 @@ for(let year_five = 0; year_five < 5; year_five++) {
          this_users = response.data.users
          this.getThisMonthBlog(this_users, this_blogs)
          this.chartSetting(this.thisMonthBlogs)
+       }).catch(error => {
+        
        })
      },
      getThisMonthBlog(users, blogs) {

@@ -1,24 +1,12 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+rails  5.2.4.4
+vue    2.6.12
+Rspec  3.9
+jest   26.6.0
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+ワンちゃんの日記に朝食と夕食のグラム数とうんちを何時何分にしたかを記録するアプリを作りました
+全体の投稿からユーザーの投稿率
+朝食と夕食の平均グラム数
+うんちの一日平均回数
+がわかるアプリです。

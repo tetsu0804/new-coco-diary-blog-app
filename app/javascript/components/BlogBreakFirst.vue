@@ -63,6 +63,8 @@ import { GChart} from 'vue-google-charts'
           self.break_firsts = response.data.break_firsts
           this.getBreak_first_count(self.break_firsts)
           this.chartSetting(this.thisBlogEats)
+        }).catch(error => {
+        
         })
       },
       getBreak_first_count(break_firsts) {

@@ -2,6 +2,7 @@
   <div>
     <b-row>
       <b-col cols="12" offset-sm="1" sm="10">
+      <b-alert show variant="danger" v-if="errorMsg">{{ errorMsg }}</b-alert>
         <b-row>
           <b-col offset="1" cols="10" sm="5" class="blog-show-title text-info">作成日: {{ blog.created_at | moment('YYYY年M月D日')}}</b-col>
           <b-col offset="1" cols="10" offset-sm="0" sm="5" class="blog-show-title">
@@ -59,7 +60,8 @@ import { mapState } from 'vuex'
       return {
         blog: {},
         user: {},
-        shits: []
+        shits: [],
+        errorMsg: ''
       }
     },
     computed: mapState({
@@ -75,6 +77,8 @@ import { mapState } from 'vuex'
         self.blog = response.data.blog
         self.user = response.data.user
         self.shits= response.data.shits
+      }).catch(error => {
+        this.errorMsg = (error.response && error.response.data) || "エラーが発生しました"
       })
     },
     methods: {
@@ -83,6 +87,8 @@ import { mapState } from 'vuex'
         .then(response => {
           this.$store.dispatch('doFetchNumberDeleteBlogs', this.blog.id)
           this.$router.push({name: 'Home'})
+        }).catch(error => {
+          this.errorMsg = (error.response && error.response.data) || "エラーが発生しました"
         })
       }
     }

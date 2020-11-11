@@ -2,6 +2,7 @@
   <div>
     <b-col cols="12" offset-sm="1" sm="10">
       <div class="text-center text-info h4 blog-new-form-top">ブログ作成</div>
+      <b-alert show variant="danger" v-if="errorMsg">{{ errorMsg }}</b-alert>
       <b-form @submit="onBlogNewSubmit" class="blog-new-form">
 
         <b-row>
@@ -153,7 +154,8 @@ const weight_first_value = { value: null , text: 'グラム'}
         time_now: new Date(),
         weight_options,
         break_first: 0,
-        dinner: 0
+        dinner: 0,
+        errorMsg: ''
       }
     },
     created() {
@@ -181,6 +183,8 @@ const weight_first_value = { value: null , text: 'グラム'}
           }
 
           this.$router.push({ name: 'Home'})
+        }).catch(error => {
+          this.errorMsg = error.response.data || "エラーが発生しました"
         })
       },
       changeTime() {

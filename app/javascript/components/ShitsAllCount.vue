@@ -62,6 +62,8 @@ import axios from 'axios'
            this.days_count =  response.data.all_count[0].days_count
            this.count =  response.data.all_count[0].count
            this.average =  response.data.all_count[0].average
+        }).catch(error => {
+          
         })
       }
     }

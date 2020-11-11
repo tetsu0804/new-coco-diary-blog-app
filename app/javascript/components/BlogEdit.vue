@@ -3,7 +3,7 @@
     <b-row>
       <b-col cols="12" offset-sm="1" sm="10">
         <div class="text-center text-info h4 blog-edit-form-top">ブログ編集</div>
-
+        <b-alert show variant="danger" v-if="errorMsg">{{ errorMsg }}</b-alert>
         <b-row>
           <b-col offset="1" cols="10" sm="6" class="blog-show-edit-title text-info blog-edit-form-top" style="margin: 10px auto;">作成日: {{ blog.created_at | moment('YYYY年M月D日')}}</b-col>
           <b-col offset="1" cols="10" sm="6" class="blog-show-edit-title text-info blog-edit-form-top" style="margin: 10px auto;">作成者: {{ user.last_name + user.first_name}}さん</b-col>
@@ -16,95 +16,99 @@
           </b-col>
         </b-row>
 
-        <b-form @submit="onBlogEditSubmit" class="blog-edit-form-top">
-          <b-row>
-            <b-col cols="12">
-              <b-card>
-                <b-col cols="12">
-                  うんち時間:
-                </b-col>
+        <b-row>
+          <b-col cols="12">
+              <b-form @submit="onBlogEditSubmit" class="blog-edit-form-top">
                 <b-row>
-                  <b-col cols="12" sm="6">
-                    <b-form-select id="edit_shit_hour" v-on:change="changeTimeEdit" v-model="houred" :options="edit_hour_options" class="blog-edit-form-top"></b-form-select>
-                  </b-col>
-                  <b-col cols="12" sm="6">
-                    <b-form-select id="edit_shit_minute" v-on:change="changeTimeEdit" v-model="minuted" :options="edit_minute_options" class="blog-edit-form-top"></b-form-select>
+                  <b-col cols="12">
+                    <b-card>
+                      <b-col cols="12">
+                        うんち時間:
+                      </b-col>
+                      <b-row>
+                        <b-col cols="12" sm="6">
+                          <b-form-select id="edit_shit_hour" v-on:change="changeTimeEdit" v-model="houred" :options="edit_hour_options" class="blog-edit-form-top"></b-form-select>
+                        </b-col>
+                        <b-col cols="12" sm="6">
+                          <b-form-select id="edit_shit_minute" v-on:change="changeTimeEdit" v-model="minuted" :options="edit_minute_options" class="blog-edit-form-top"></b-form-select>
+                        </b-col>
+                      </b-row>
+                    </b-card>
                   </b-col>
                 </b-row>
-              </b-card>
-            </b-col>
-          </b-row>
 
-          <b-row class="blog-edit-form-top">
-            <b-col cols="6">
-              <b-card>
-                <b-col cols="12">
-                  朝食
-                </b-col>
-                <b-col cols="12">
-                  <b-form-select id="blog_edit_break_first"  v-model="blog.break_first" :options="edit_weight_options" class="blog-new-form-top"></b-form-select>
-                </b-col>
-              </b-card>
-            </b-col>
+                <b-row class="blog-edit-form-top">
+                  <b-col cols="6">
+                    <b-card>
+                      <b-col cols="12">
+                        朝食
+                      </b-col>
+                      <b-col cols="12">
+                        <b-form-select id="blog_edit_break_first"  v-model="blog.break_first" :options="edit_weight_options" class="blog-new-form-top"></b-form-select>
+                      </b-col>
+                    </b-card>
+                  </b-col>
 
-            <b-col cols="6">
-              <b-card>
-                <b-col cols="12">
-                  夕食
-                </b-col>
-                <b-col cols="12">
-                  <b-form-select id="blog_edit_dinner"  v-model="blog.dinner" :options="edit_weight_options" class="blog-new-form-top"></b-form-select>
-                </b-col>
-              </b-card>
-            </b-col>
-          </b-row>
+                  <b-col cols="6">
+                    <b-card>
+                      <b-col cols="12">
+                        夕食
+                      </b-col>
+                      <b-col cols="12">
+                        <b-form-select id="blog_edit_dinner"  v-model="blog.dinner" :options="edit_weight_options" class="blog-new-form-top"></b-form-select>
+                      </b-col>
+                    </b-card>
+                  </b-col>
+                </b-row>
 
-          <b-form-group
-            id="blog-edit-input-group-1"
-            label="タイトル"
-            label-for="blog-edit-input-1"
-            class="blog-edit-form-top"
-          >
-            <b-form-input
-              id="blog-edit-input-1"
-              v-model="blog.title"
-              type="text"
-              required
-              placeholder="今日のここちゃん"
-            ></b-form-input>
-          </b-form-group>
+                <b-form-group
+                  id="blog-edit-input-group-1"
+                  label="タイトル"
+                  label-for="blog-edit-input-1"
+                  class="blog-edit-form-top"
+                >
+                  <b-form-input
+                    id="blog-edit-input-1"
+                    v-model="blog.title"
+                    type="text"
+                    required
+                    placeholder="今日のここちゃん"
+                  ></b-form-input>
+                </b-form-group>
 
-          <b-form-group
-            id="blog-edit-input-group-2"
-            label="日記"
-            label-for="blog-edit-input-2"
-          >
-            <b-form-textarea
-              id="blog-edit-input-2"
-              v-model="blog.content"
-              placeholder="今日のここちゃんはりっこから新しいおもちゃを買ってもらってご満悦な1日でした"
-              rows="9"
-              max-rows="12"
-            ></b-form-textarea>
-          </b-form-group>
+                <b-form-group
+                  id="blog-edit-input-group-2"
+                  label="日記"
+                  label-for="blog-edit-input-2"
+                >
+                  <b-form-textarea
+                    id="blog-edit-input-2"
+                    v-model="blog.content"
+                    placeholder="今日のここちゃんはりっこから新しいおもちゃを買ってもらってご満悦な1日でした"
+                    rows="9"
+                    max-rows="12"
+                  ></b-form-textarea>
+                </b-form-group>
 
-          <b-form-group
-            id="blog-edit-input-3"
-            label-for="blog-edit-input-3"
-          >
-            <b-form-input type="hidden" class="sr-only" id="blog-new-input-3" v-model="blog.user_id"></b-form-input>
-          </b-form-group>
+                <b-form-group
+                  id="blog-edit-input-3"
+                  label-for="blog-edit-input-3"
+                >
+                  <b-form-input type="hidden" class="sr-only" id="blog-new-input-3" v-model="blog.user_id"></b-form-input>
+                </b-form-group>
 
-          <b-row>
-            <b-col cols="12" sm="6">
-              <router-link :to="{ name: 'BlogShow', params: { id: blog.id}}" class="btn btn-info blog-edit-show-btn blog-edit-form-top">詳細画面</router-link>
-            </b-col>
-            <b-col cols="12" sm="6">
-              <b-button class="on-blogedit-btn blog-edit-form-top" block variant="info" type="submit">ブログ編集完了</b-button>
-            </b-col>
-          </b-row>
+                <b-row>
+                  <b-col cols="12" sm="6">
+                    <router-link :to="{ name: 'BlogShow', params: { id: blog.id}}" class="btn btn-info blog-edit-show-btn blog-edit-form-top">詳細画面</router-link>
+                  </b-col>
+                  <b-col cols="12" sm="6">
+                    <b-button class="on-blogedit-btn blog-edit-form-top" block variant="info" type="submit">ブログ編集完了</b-button>
+                  </b-col>
+                </b-row>
 
-        </b-form>
+              </b-form>
+          </b-col>
+        </b-row>
       </b-col>
     </b-row>
   </div>
@@ -154,7 +158,8 @@ const first_edit_weight_value = { value: null, text: 'グラム'}
         edit_hour_options,
         edit_minute_options,
         edit_weight_options,
-        edit_time_now: new Date()
+        edit_time_now: new Date(),
+        errorMsg: ''
       }
     },
     created() {
@@ -164,6 +169,8 @@ const first_edit_weight_value = { value: null, text: 'グラム'}
         self.blog = response.data.blog
         self.user = response.data.user
         self.shits = response.data.shits
+      }).catch(error => {
+        this.errorMsg = (error.response && error.response.data) || "エラーが発生しました"
       })
     },
     mounted() {
@@ -181,6 +188,8 @@ const first_edit_weight_value = { value: null, text: 'グラム'}
             }
 
             this.$router.push({ name: 'BlogShow', params: { id: response.data.blog.id }})
+          }).catch(error => {
+            this.errorMsg = (error.response.data) || "エラーが発生しました"
           })
         })
       },
@@ -189,6 +198,8 @@ const first_edit_weight_value = { value: null, text: 'グラム'}
         .then(response => {
           this.$store.dispatch('doFetchDeleteShit', shit)
           this.$router.push({ name: 'BlogShow', params: { id: this.blog.id }})
+        }).catch(error => {
+          this.errorMsg = "エラーが発生しました"
         })
       },
       changeTimeEdit() {
