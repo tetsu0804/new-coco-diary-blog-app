@@ -1,43 +1,18 @@
 class Api::V1::BlogsController < ApplicationController
+  include BlogsHelper
   skip_before_action :verify_authenticity_token
 
   def thismounth
     this_mounth_blogs = Blog.where(created_at: Time.now.all_month).order('created_at DESC')
     users = User.all
-
-    if Rails.env.development?
-      this_mounth_blogs.each do |blog|
-        if blog.eyecatch.attached?
-          blog.blog_image = encode_base64(blog.eyecatch)
-        else
-          blog.blog_image = "/img/IMG_0883.JPG"
-        end
-      end
-    else
-      this_mounth_blogs.each do |blog|
-        blog.blog_image = "/img/IMG_0883.JPG"
-      end
-    end
-
-    render json: { blogs: this_mounth_blogs, users: users}
+    blogs = rails_env_image_blogs(this_mounth_blogs)
+    render json: { blogs: blogs, users: users}
   end
 
   def index
-    blogs = Blog.all
+    blog_all = Blog.all
     users = User.all
-    if Rails.env.development?
-      blogs.each do |blog|
-        if blog.eyecatch.attached?
-          blog.blog_image = encode_base64(blog.eyecatch)
-        else
-          blog.blog_image = "/img/IMG_0883.JPG"
-        end
-      end
-    else
-      blogs.each do |blog|
-        blog.blog_image = "/img/IMG_0883.JPG"
-      end
-    end
+    blogs = rails_env_image_blogs(blog_all)
     render json: { blogs: blogs , users: users}
   end
 
@@ -100,35 +75,23 @@ class Api::V1::BlogsController < ApplicationController
   def month
     month = Time.zone.parse(params[:month])
     this_mounth_blogs = Blog.where(created_at: month.all_month).order('created_at DESC')
+    blogs = rails_env_image_blogs(this_mounth_blogs)
 
-    if Rails.env.development?
-      this_mounth_blogs.each do |blog|
-        if blog.eyecatch.attached?
-          blog.blog_image = encode_base64(blog.eyecatch)
-        else
-          blog.blog_image = "/img/IMG_0883.JPG"
-        end
-      end
-    else
-      this_mounth_blogs.each do |blog|
-        blog.blog_image = "/img/IMG_0883.JPG"
-      end
-    end
-    render json: { blogs: this_mounth_blogs }
+    render json: { blogs: blogs }
   end
 
   def break_first
     eat_gram = Blog.eat_select_gram
-    break_firsts = eat_gram[:break_first]
+  break_firsts = eat_gram[:break_first]
 
-    break_first_array_in_hash = break_first_take(break_firsts)
+    break_first_array_in_hash = break_first_take(eat_gram[:break_first])
+
     render json: { break_firsts: break_first_array_in_hash}
   end
 
   def dinner
     eat_gram = Blog.eat_select_gram
-    dinners = eat_gram[:dinner]
-    dinner_array_in_hash = dinner_take(dinners)
+    dinner_array_in_hash = dinner_take(eat_gram[:dinner])
     render json: { dinners: dinner_array_in_hash}
   end
 
@@ -147,43 +110,4 @@ class Api::V1::BlogsController < ApplicationController
       blob = ActiveStorage::Blob.find(image_file[:id])
       "data:#{blob[:content_type]};base64,#{image}"
     end
-
-    def break_first_take(break_firsts)
-      break_first_array = []
-      braek_first_ary = []
-      break_firsts.each do |break_first|
-        break_first_array.push(break_first.break_first)
-      end
-      break_first_array_in_hash = break_first_array.group_by(&:itself).map{ |key, value| {key.to_s => value.count} }.to_a
-
-      break_first_array_in_hash.each do |break_first|
-        break_first.each do |k, v|
-          break_first_hash = {}
-          break_first_hash[k] = v
-          braek_first_ary.push(break_first_hash)
-        end
-      end
-
-      return braek_first_ary
-    end
-
-    def dinner_take(dinners)
-      dinners_array = []
-      dinner_ary = []
-      dinners.each do |dinner|
-        dinners_array.push(dinner.dinner)
-      end
-      dinnders_array_in_hash = dinners_array.group_by(&:itself).map{ |key, value| {key.to_s => value.count} }.to_a
-
-      dinnders_array_in_hash.each do |dinner|
-        dinner.each do |k, v|
-          dinner_hash = {}
-          dinner_hash[k] = v
-          dinner_ary.push(dinner_hash)
-        end
-      end
-
-      return dinner_ary
-    end
-
 end
