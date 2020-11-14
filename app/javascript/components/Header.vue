@@ -332,7 +332,7 @@ for(let year_five = 0; year_five < 5; year_five++) {
          this.getThisMonthBlog(this_users, this_blogs)
          this.chartSetting(this.thisMonthBlogs)
        }).catch(error => {
-        
+
        })
      },
      getThisMonthBlog(users, blogs) {

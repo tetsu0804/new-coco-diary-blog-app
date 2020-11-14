@@ -12,7 +12,7 @@
           <b-card-group deck>
             <b-card
               border-variant="info"
-              header="全投稿のパーソナルパーセンテージ"
+              header="全投稿からユーザーの投稿率"
               header-bg-variant="white"
               header-text-variant="info"
               align="center"
@@ -71,7 +71,7 @@
           this.getThisMonthBlog(this.users, this.blogs)
           this.chartSetting(this.thisMonthBlogs)
         }).catch(error => {
-        
+
         })
 
       },
